@@ -61,6 +61,15 @@ angular.module('mymasjid.controllers')
     "isha",
   ];
 
+  ctrl.salahNames = {
+    "fajr": "Fajr",
+    "sunrise": "Sunrise",
+    "dhuhr": "Dhuhr",
+    "asr": "Asr",
+    "maghrib": "Maghrib",
+    "isha": "Isha",
+  }
+
   init();
 
 });
