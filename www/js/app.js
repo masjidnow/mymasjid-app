@@ -4,7 +4,13 @@
 // 'mymasjid' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'mymasjid.controllers' is found in controllers.js
-angular.module('mymasjid', ['ionic', 'mymasjid.controllers'])
+angular.module('mymasjid',
+  [
+    'ionic',
+    'mymasjid.controllers',
+    'restangular'
+  ]
+)
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
