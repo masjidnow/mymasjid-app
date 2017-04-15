@@ -1,11 +1,15 @@
-<ion-view view-title="{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}">
+<ion-view>
+  <ion-nav-title>{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}</ion-nav-title>
   <ion-content class='daily-timings'>
     <div class='loading' ng-if='ctrl.isLoading'>
       Loading... <ion-spinner></ion-spinner>
     </div>
-    <div class="card">
+    <div class='error' ng-if='ctrl.errorMsg'>
+      {{ ctrl.errorMsg }}
+    </div>
+    <div class="card" ng-hide="ctrl.errorMsg">
       <div class="item item-divider">
-        Daily Timings {{ ctrl.masjid.name }}
+        Daily Timings
       </div>
       <div class="item item-text-wrap" ng-if="ctrl.dayTimings">
 

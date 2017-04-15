@@ -9,6 +9,11 @@ angular.module('mymasjid')
   })
   .state('app.dailyTimings', {
     url: '/daily_timings',
+    resolve: {
+      storedMasjids: function($localForage){
+        return $localForage.getItem("storedMasjids");
+      }
+    },
     views: {
       'menuContent': {
         templateUrl: 'app/daily_timings/daily_timings.html',
@@ -21,7 +26,9 @@ angular.module('mymasjid')
     url: '/search',
     views: {
       'menuContent': {
-        templateUrl: 'app/search.html'
+        templateUrl: 'app/search.html',
+        controller: "SearchCtrl",
+        controllerAs: "ctrl",
       }
     }
   });

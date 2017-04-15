@@ -4,17 +4,25 @@ angular.module('mymasjid.controllers')
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
-    getStoredMasjid()
-      .then(ctrl.loadTimings);
+    $localForage.getItem("storedMasjids").then(function(storedMasjids){
+      return (storedMasjids || [])[0];
+    }).then(function(storedMasjid){
+      if(storedMasjid == null)
+        ctrl.showNoMasjid();
+      else
+        ctrl.loadTimings(storedMasjid);
+    });
   }
 
-  ctrl.loadTimings = function(cachedMasjid){
-    ctrl.error = false;
+  $scope.$on("$ionicView.enter", init);
+
+  ctrl.loadTimings = function(selectedMasjid){
+    ctrl.errorMsg = null;
     ctrl.isLoading = true;
-    ctrl.masjid = cachedMasjid;
+    ctrl.masjid = selectedMasjid;
     var params = {
       src: ionic.Platform.platform(),
-      masjid_id: cachedMasjid.id
+      masjid_id: selectedMasjid.id
     };
     baseSalahTimings.customGET("daily.json", params).then(function(data){
       var masjid = data.masjid;
@@ -22,10 +30,11 @@ angular.module('mymasjid.controllers')
       ctrl.dayTimings = masjid.salah_timing;
       ctrl.monthlyInfo = masjid.monthly_info;
     }, function(response){
-      ctrl.masjid = storedMasjid;
-      ctrl.error = true;
+      ctrl.masjid = selectedMasjid;
       if(response.data){
-        ctrl.errorMsg = response.data.errors.join(", ");
+        var error = selectedMasjid.name + ": ";
+        error += response.data.errors.join(", ");
+        ctrl.errorMsg = error;
       }
       else{
         ctrl.errorMsg = "Couldn't connect to MasjidNow. Pleae check your internet connection."
@@ -39,16 +48,8 @@ angular.module('mymasjid.controllers')
     return new Date(timing.year, timing.month-1, timing.day);
   }
 
-  function getStoredMasjid(){
-    return $localForage.getItem('cachedMasjids').then(function(cachedMasjids){
-      //TODO FIXME REMOVE THIS BELOW
-      return {id: 0};
-      //TODO FIXME REMOVE THIS ABOVE
-      if(cachedMasjids == null || cachedMasjids.length == 0)
-        return null;
-      else
-        return cachedMasjids[0];
-    });
+  ctrl.showNoMasjid = function() {
+    console.error("FIXME - make text for no masjid selected");
   }
 
   // the keys that the template should display
@@ -69,7 +70,5 @@ angular.module('mymasjid.controllers')
     "maghrib": "Maghrib",
     "isha": "Isha",
   }
-
-  init();
 
 });

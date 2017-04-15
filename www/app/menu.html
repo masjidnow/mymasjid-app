@@ -14,21 +14,26 @@
 
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
-      <h1 class="title">Left</h1>
+      <h1 class="title">MasjidNow - My Mosque</h1>
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item menu-close ng-click="login()">
-          Login
+        <ion-item menu-close
+          ui-sref="app.dailyTimings"
+          ng-if="global.selectedMasjid">
+          {{ global.selectedMasjid.name }}
         </ion-item>
-        <ion-item menu-close href="#/app/search">
-          Search
+        <ion-item menu-close
+          ui-sref="app.dailyTimings"
+          ng-if="global.selectedMasjid">
+          Daily Timings
         </ion-item>
-        <ion-item menu-close href="#/app/browse">
-          Browse
-        </ion-item>
-        <ion-item menu-close href="#/app/playlists">
-          Playlists
+        <div class='item-divider'></div>
+        <ion-item
+          ng-click="openChild('app.search')"
+          menu-close
+          href="#/app/search">
+          Add Masjid
         </ion-item>
       </ion-list>
     </ion-content>

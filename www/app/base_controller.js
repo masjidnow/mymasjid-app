@@ -1,5 +1,26 @@
 angular.module('mymasjid.controllers')
-.controller('BaseCtrl', function($scope, $ionicModal, $timeout) {
+.controller('BaseCtrl', function($rootScope, $scope, $ionicModal, $state, $ionicSideMenuDelegate, $localForage) {
+
+  $scope.global = {};
+
+  function getStoredMasjid(){
+    return $localForage.getItem('storedMasjids').then(function(storedMasjids){
+      if(storedMasjids == null || storedMasjids.length == 0)
+        return null;
+      else
+        return storedMasjids[0];
+    }).then(function(storedMasjid){
+      $scope.global.selectedMasjid = storedMasjid;
+    });
+  };
+
+  $scope.openChild = function(stateName){
+    $state.go(stateName);
+    $ionicSideMenuDelegate.toggleLeft(false);
+  };
+
+
+  getStoredMasjid();
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.

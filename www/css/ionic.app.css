@@ -9845,10 +9845,24 @@ a.button {
   .daily-timings .monthly-info p {
     white-space: normal; }
 
+.search .masjid-status {
+  text-align: center;
+  font-size: 12px; }
+  .search .masjid-status i {
+    font-size: 30px; }
+
+.search .masjid-info {
+  padding: 10px; }
+
+.error {
+  background: #ef473a;
+  color: white;
+  padding: 10px; }
+
 .loading {
   background: #387ef5;
   padding: 10px;
-  text-align: center;
+  text-align: left;
   color: white;
   font-weight: bold;
   vertical-align: middle; }

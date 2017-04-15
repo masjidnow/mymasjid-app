@@ -23,13 +23,18 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 @import "variables";
 
 @import "daily_timings";
+@import "search";
 
-
+.error{
+  background: $assertive;
+  color: white;
+  padding: 10px;
+}
 
 .loading{
   background: $positive;
   padding: 10px;
-  text-align: center;
+  text-align: left;
   color: white;
   font-weight: bold;
   vertical-align: middle;

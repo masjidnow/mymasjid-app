@@ -1,5 +1,60 @@
 <ion-view view-title="Search">
-  <ion-content>
-    <h1>Search</h1>
+  <ion-content class='search'>
+    <div class="list">
+
+      <form name="search">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper">
+            <input ng-model="ctrl.search.query" type="text" placeholder="Mosque Name">
+          </label>
+          <button class="button button-small button-calm" ng-click="ctrl.submitSearch(ctrl.search.query)" ng-class="{disabled: !ctrl.search.query || ctrl.search.query.length < 3}">
+          Search
+          </button>
+        </div>
+      </form>
+
+    </div>
+
+    <div ng-if="ctrl.isSearching" class="loading">
+      <ion-spinner></ion-spinner> Loading...
+    </div>
+
+    <div ng-if="!ctrl.isSearching">
+
+
+      <div class="padding" ng-if="ctrl.errorMsg">
+        <div class="assertive">{{ ctrl.errorMsg }}</div>
+      </div>
+
+      <div class="card" ng-hide="ctrl.results || ctrl.errorMsg">
+        <div class="item item-text-wrap">
+          Enter the name of your masjid, and press 'Search'.
+        </div>
+      </div>
+
+      <div class="card" ng-if="!ctrl.errorMsg && ctrl.results && ctrl.results.length == 0" ng-init="query = ctrl.search.query">
+        <div class="item item-text-wrap">
+          No masjids found for '{{query}}'. Please try again.
+        </div>
+      </div>
+
+      <div class="list" ng-if="ctrl.results && ctrl.results.length > 0">
+        <a class="row item" ng-repeat="masjid in ctrl.results" ng-click="ctrl.canBeSet(masjid) && ctrl.selectMasjid(masjid)">
+          <div class="col col-25 masjid-status">
+            <i ng-show="ctrl.canBeSet(masjid)" class="icon ion-checkmark" ng-class="{balanced: ctrl.canBeSet(masjid)}"></i>
+            <i ng-hide="ctrl.canBeSet(masjid)" class="icon ion-android-alert"></i>
+            <br/>
+            {{ ctrl.canBeSet(masjid) ? "Tap To Set" : "Not unlocked" }}
+          </div>
+          <div class="col masjid-info">
+            <h2 ng-class="{'balanced': masjid.unlocked && masjid.has_iqamah_timings}">{{masjid.name}}</h2>
+            <span >{{masjid.address}}</span><br/>
+            <span >{{ctrl.canBeSet(masjid)}}</span><br/>
+          </div>
+
+        </a>
+
+      </div>
+    </div>
   </ion-content>
 </ion-view>
