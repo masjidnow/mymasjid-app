@@ -1,0 +1,46 @@
+.daily-timings{
+  .timing-date{
+    font-size: 12px;
+    padding: 5px;
+    text-align: center;
+  }
+
+  .iqamah-times-table{
+    min-width: 250px;
+    max-width: 600px;
+    margin: 0 auto;
+    th{
+      font-size: 12px;
+    }
+
+    .next-iqamah-indicator{
+      color: $accent-color;
+    }
+
+    tr.iqamah-row td{
+      padding: 4px 2px;
+
+      &.salah-name{
+        padding-right: 20px;
+      }
+    }
+
+    .iqamah-time{
+      text-align: center;
+      font-size: 14px;
+    }
+    .adhan-time{
+      text-align: center;
+      font-size: 14px;
+    }
+  }
+
+  .monthly-info{
+    text-align: center;
+    padding: 10px 4px;
+    p{
+      white-space: normal;
+    }
+  }
+
+}

@@ -1,14 +1,14 @@
 <ion-view view-title="Daily Timings">
-  <ion-content>
-    <div class='loading' ng-if='isLoading'>
+  <ion-content class='daily-timings'>
+    <div class='loading bar bar-positive' ng-if='ctrl.isLoading'>
       Loading... <ion-spinner></ion-spinner>
     </div>
     <div class="card">
       <div class="item item-divider">
-        Daily Timings
+        Daily Timings {{ ctrl.masjid.name }}
       </div>
       <div class="item item-text-wrap">
-        {{ ctrl.masjid }}
+
         <div class='timing-date'>
           From {{ getDate(ctrl.dayTimings) | date:'EEEE, MMMM dd, y' }}
         </div>
@@ -18,7 +18,7 @@
             <th>Adhan</th>
             <th>Iqamah</th>
           </tr>
-          <tr class='iqamah-row {{salahKey}}' ng-repeat="salahKey in salahKeys">
+          <tr class='iqamah-row {{salahKey}}' ng-repeat="salahKey in ctrl.salahKeys">
             <td class='salah-name'>
               {{ salahNames[salahKey] }}
             </td>
@@ -34,7 +34,7 @@
           </tr>
         </table>
       </div>
-      <div class="item monthly-info" ng-bind-html="monthlyInfo"></div>
+      <div class="item monthly-info" ng-bind-html="ctrl.monthlyInfo"></div>
     </div>
 
   </ion-content>

@@ -19,8 +19,8 @@ angular.module('mymasjid.controllers')
     baseSalahTimings.customGET("daily.json", params).then(function(data){
       var masjid = data.masjid;
       ctrl.masjid = masjid;
-      var timing = masjid.salah_timing;
-      ctrl.timing = timing;
+      ctrl.dayTimings = masjid.salah_timing;
+      ctrl.monthlyInfo = masjid.monthly_info;
     }, function(response){
       ctrl.masjid = storedMasjid;
       ctrl.error = true;
@@ -35,6 +35,10 @@ angular.module('mymasjid.controllers')
     });
   };
 
+  ctrl.getDate = function(timing){
+    return new Date(timing.year, timing.month-1, timing.day);
+  }
+
   function getStoredMasjid(){
     return $localForage.getItem('cachedMasjids').then(function(cachedMasjids){
       //TODO FIXME REMOVE THIS BELOW
@@ -47,6 +51,15 @@ angular.module('mymasjid.controllers')
     });
   }
 
+  // the keys that the template should display
+  ctrl.salahKeys = [
+    "fajr",
+    "sunrise",
+    "dhuhr",
+    "asr",
+    "maghrib",
+    "isha",
+  ];
 
   init();
 

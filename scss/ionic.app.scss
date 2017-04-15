@@ -20,4 +20,25 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+@import "variables";
 
+@import "daily_timings";
+
+
+
+.loading{
+  background: $positive;
+  padding: 10px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+  vertical-align: middle;
+  ion-spinner {
+    vertical-align: middle;
+    svg{
+      stroke: white;
+      line-height: normal;
+      height: 20px;
+    }
+  }
+}
