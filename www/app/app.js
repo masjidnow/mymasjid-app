@@ -26,7 +26,7 @@ angular.module('mymasjid',
       StatusBar.styleDefault();
     }
   });
+})
+.config(function(RestangularProvider){
+  RestangularProvider.setBaseUrl("https://www.masjidnow.com/api/v2");
 });
-
-// Register the 'controllers' module
-angular.module('mymasjid.controllers', []);

@@ -1,0 +1,37 @@
+<ion-view view-title="Search">
+  <ion-content>
+    <div class="card">
+      <div class="item item-divider">
+        Daily Timings
+      </div>
+      <div class="item item-text-wrap">
+        <div class='timing-date'>
+          From {{ getDate(dayTimings) | date:'EEEE, MMMM dd, y' }}
+        </div>
+        <table class='iqamah-times-table'>
+          <tr>
+            <th></th>
+            <th>Adhan</th>
+            <th>Iqamah</th>
+          </tr>
+          <tr class='iqamah-row {{salahKey}}' ng-repeat="salahKey in salahKeys">
+            <td class='salah-name'>
+              {{ salahNames[salahKey] }}
+            </td>
+            <td class='adhan-time'>
+              {{ dayTimings[salahKey + "_adhan"] || "---" }}
+            </td>
+            <td class='iqamah-time'>
+              <span class="next-iqamah-indicator" ng-if="nextIqamah() == salahKey">
+                <i class="ion-ionic"></i>
+              </span>
+              {{ dayTimings[salahKey] || "---" }}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="item monthly-info" ng-bind-html="monthlyInfo"></div>
+    </div>
+
+  </ion-content>
+</ion-view>
