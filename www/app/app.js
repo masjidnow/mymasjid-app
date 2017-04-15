@@ -8,7 +8,8 @@ angular.module('mymasjid',
   [
     'ionic',
     'mymasjid.controllers',
-    'restangular'
+    'restangular',
+    'LocalForageModule',
   ]
 )
 
