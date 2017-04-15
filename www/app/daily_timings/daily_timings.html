@@ -1,12 +1,16 @@
-<ion-view view-title="Search">
+<ion-view view-title="Daily Timings">
   <ion-content>
+    <div class='loading' ng-if='isLoading'>
+      Loading... <ion-spinner></ion-spinner>
+    </div>
     <div class="card">
       <div class="item item-divider">
         Daily Timings
       </div>
       <div class="item item-text-wrap">
+        {{ ctrl.masjid }}
         <div class='timing-date'>
-          From {{ getDate(dayTimings) | date:'EEEE, MMMM dd, y' }}
+          From {{ getDate(ctrl.dayTimings) | date:'EEEE, MMMM dd, y' }}
         </div>
         <table class='iqamah-times-table'>
           <tr>
@@ -19,13 +23,13 @@
               {{ salahNames[salahKey] }}
             </td>
             <td class='adhan-time'>
-              {{ dayTimings[salahKey + "_adhan"] || "---" }}
+              {{ ctrl.dayTimings[salahKey + "_adhan"] || "---" }}
             </td>
             <td class='iqamah-time'>
               <span class="next-iqamah-indicator" ng-if="nextIqamah() == salahKey">
                 <i class="ion-ionic"></i>
               </span>
-              {{ dayTimings[salahKey] || "---" }}
+              {{ ctrl.dayTimings[salahKey] || "---" }}
             </td>
           </tr>
         </table>

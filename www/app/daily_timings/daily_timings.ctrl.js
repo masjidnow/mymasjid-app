@@ -1,47 +1,51 @@
 angular.module('mymasjid.controllers')
-.controller('DailyTimingsCtrl', function($scope, $ionicModal, $timeout, Restangular) {
+.controller('DailyTimingsCtrl', function($scope, Restangular, $localForage) {
+  var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
     getStoredMasjid()
-      .then($scope.loadTimings);
+      .then(ctrl.loadTimings);
   }
 
-  $scope.loadTimings = function(masjidId){
-    $scope.error = false;
-    $scope.isLoadingMasjid = true;
-    $scope.masjid = storedMasjid;
-    baseSalahTimings.customGET("daily.json", {src: ionic.Platform.platform(), masjid_id: masjidId})
-    .then(function(data){
+  ctrl.loadTimings = function(cachedMasjid){
+    ctrl.error = false;
+    ctrl.isLoading = true;
+    ctrl.masjid = cachedMasjid;
+    var params = {
+      src: ionic.Platform.platform(),
+      masjid_id: cachedMasjid.id
+    };
+    baseSalahTimings.customGET("daily.json", params).then(function(data){
       var masjid = data.masjid;
-      $scope.masjid = masjid;
+      ctrl.masjid = masjid;
       var timing = masjid.salah_timing;
-      $scope.timing = timing;
-      $scope.messages = masjid.push_messages;
-
-      if(masjid.ads_disabled)
-      {
-        AdHelper.setDisabledDate(new Date());
-      }
-      else
-      {
-        AdHelper.setDisabledDate(null);
-      }
+      ctrl.timing = timing;
     }, function(response){
-      $scope.masjid = storedMasjid;
-      $scope.error = true;
-      if(response.data)
-      {
-        $scope.errorMsg = response.data.errors.join(", ");
+      ctrl.masjid = storedMasjid;
+      ctrl.error = true;
+      if(response.data){
+        ctrl.errorMsg = response.data.errors.join(", ");
       }
-      else
-      {
-        $scope.errorMsg = "Couldn't connect to MasjidNow. Pleae check your internet connection."
+      else{
+        ctrl.errorMsg = "Couldn't connect to MasjidNow. Pleae check your internet connection."
       }
     }).finally(function(){
-      $scope.isLoadingMasjid = false;
+      ctrl.isLoading = false;
     });
   };
+
+  function getStoredMasjid(){
+    return $localForage.getItem('cachedMasjids').then(function(cachedMasjids){
+      //TODO FIXME REMOVE THIS BELOW
+      return {id: 0};
+      //TODO FIXME REMOVE THIS ABOVE
+      if(cachedMasjids == null || cachedMasjids.length == 0)
+        return null;
+      else
+        return cachedMasjids[0];
+    });
+  }
 
 
   init();

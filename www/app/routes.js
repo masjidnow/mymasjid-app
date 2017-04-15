@@ -9,10 +9,11 @@ angular.module('mymasjid')
   })
   .state('app.dailyTimings', {
     url: '/daily_timings',
-    controller: "DailyTimingsCtrl",
     views: {
       'menuContent': {
-        templateUrl: 'app/daily_timings/daily_timings.html'
+        templateUrl: 'app/daily_timings/daily_timings.html',
+        controller: "DailyTimingsCtrl",
+        controllerAs: "ctrl",
       }
     }
   })
