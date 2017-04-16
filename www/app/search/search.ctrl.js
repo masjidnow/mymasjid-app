@@ -29,23 +29,9 @@ angular.module('mymasjid.controllers')
   }
 
   ctrl.selectMasjid = function(masjid){
-    $localForage.getItem("storedMasjids")
-      .then(function(storedMasjids){
-        storedMasjids = storedMasjids || [];
-        var storedIndex = _.findIndex(storedMasjids, function(storedMasjid){
-          if(storedMasjid.id == masjid.id){
-            return masjid;
-          }
-        });
-        if(storedIndex != -1){
-          storedMasjids.splice(storedIndex, 1);
-        }
-        storedMasjids.unshift(masjid);
-        $scope.global.selectedMasjid = masjid;
-        $localForage.setItem("storedMasjids", storedMasjids).then(function(){
-          $state.go("app.dailyTimings");
-        });
-      });
+    $scope.setSelectedMasjid(masjid).then(function(){
+      $state.go("app.dailyTimings");
+    });
   }
 
   ctrl.search = {};

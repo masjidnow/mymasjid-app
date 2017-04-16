@@ -1,11 +1,13 @@
 angular.module('mymasjid.controllers')
-.controller('BaseCtrl', function($rootScope, $scope, $ionicModal, $state, $ionicSideMenuDelegate, $localForage) {
+.controller('BaseCtrl', function($scope, $ionicModal, $state, $ionicSideMenuDelegate, $localForage) {
 
   $scope.global = {};
 
-  function getStoredMasjid(){
+  function getStoredMasjids(){
     return $localForage.getItem('storedMasjids').then(function(storedMasjids){
-      if(storedMasjids == null || storedMasjids.length == 0)
+      storedMasjids = storedMasjids || [];
+      $scope.otherMasjids = storedMasjids.slice(1);
+      if(storedMasjids.length == 0)
         return null;
       else
         return storedMasjids[0];
@@ -14,13 +16,44 @@ angular.module('mymasjid.controllers')
     });
   };
 
+  $scope.hideSideMenu = function(){
+    $ionicSideMenuDelegate.toggleLeft(false);
+    return true;
+  }
+
   $scope.openChild = function(stateName){
     $state.go(stateName);
     $ionicSideMenuDelegate.toggleLeft(false);
   };
 
+  $scope.toggleShowingOtherMasjids = function(){
+    $scope.showingOtherMasjids = !$scope.showingOtherMasjids;
+    return true;
+  }
 
-  getStoredMasjid();
+  $scope.setSelectedMasjid = function(masjid){
+    return $localForage.getItem("storedMasjids")
+      .then(function(storedMasjids){
+        storedMasjids = storedMasjids || [];
+        var storedIndex = _.findIndex(storedMasjids, function(storedMasjid){
+          if(storedMasjid.id == masjid.id){
+            return masjid;
+          }
+        });
+        if(storedIndex != -1){
+          storedMasjids.splice(storedIndex, 1);
+        }
+        storedMasjids.unshift(masjid);
+        $scope.global.selectedMasjid = masjid;
+        return $localForage.setItem("storedMasjids", storedMasjids);
+      }).then(function(){
+        $scope.$broadcast("mymasjid.selectedMasjidChanged");
+      })
+      .then(getStoredMasjids);
+  }
+
+
+  getStoredMasjids();
 
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.

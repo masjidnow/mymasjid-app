@@ -9854,6 +9854,25 @@ a.button {
 .search .masjid-info {
   padding: 10px; }
 
+.side-menu .current-masjid .item-content {
+  padding: 26px 10px;
+  font-size: 14px; }
+
+.side-menu .current-masjid .expander-icon {
+  font-size: 12px;
+  display: inline-block; }
+  .side-menu .current-masjid .expander-icon.expanded {
+    transform: rotate(180deg); }
+
+.side-menu .current-masjid .address {
+  color: #666;
+  padding-left: 20px; }
+
+.side-menu .other-masjid {
+  padding-left: 20px;
+  background: #EEE;
+  font-size: 14px; }
+
 .error {
   background: #ef473a;
   color: white;

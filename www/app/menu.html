@@ -16,25 +16,55 @@
     <ion-header-bar class="bar-stable">
       <h1 class="title">MasjidNow - My Mosque</h1>
     </ion-header-bar>
-    <ion-content>
+    <ion-content class='side-menu'>
       <ion-list>
-        <ion-item menu-close
-          ui-sref="app.dailyTimings"
-          ng-if="global.selectedMasjid">
-          {{ global.selectedMasjid.name }}
-        </ion-item>
-        <ion-item menu-close
-          ui-sref="app.dailyTimings"
-          ng-if="global.selectedMasjid">
-          Daily Timings
-        </ion-item>
-        <div class='item-divider'></div>
         <ion-item
-          ng-click="openChild('app.search')"
-          menu-close
-          href="#/app/search">
-          Add Masjid
+          ui-sref="app.dailyTimings"
+          ng-if="global.selectedMasjid"
+          ng-click="toggleShowingOtherMasjids()"
+          class='current-masjid'>
+          <i class="expander-icon ion-chevron-down" ng-class="{'expanded': showingOtherMasjids, 'contracted': !showingOtherMasjids}"></i>
+          {{ global.selectedMasjid.name }}<br/>
+          <span class='address'>
+            {{ global.selectedMasjid.address }}
+          </span>
         </ion-item>
+        <div ng-if="showingOtherMasjids">
+          <ion-item
+            ng-if="showingOtherMasjids"
+            ng-repeat="masjid in otherMasjids"
+            ng-click="setSelectedMasjid(masjid) && toggleShowingOtherMasjids() && hideSideMenu()"
+            class='other-masjid'
+            menu-close>
+            <span class='ion-ios-checkmark-outline'></span>
+            {{ masjid.name }}
+          </ion-item>
+          <ion-item
+            ng-click="openChild('app.search')"
+            class='other-masjid'
+            menu-close>
+            <i class='ion-plus'></i>
+            <span ui-sref="app.search">
+              Add Masjid
+            </span>
+          </ion-item>
+        </div>
+        <div ng-if="!showingOtherMasjids">
+          <ion-item menu-close
+            ui-sref="app.dailyTimings"
+            ng-if="global.selectedMasjid">
+            <i class='ion-ios-clock-outline'></i>
+            Daily Timings
+          </ion-item>
+          <div class='item-divider'></div>
+          <ion-item
+            ng-click="openChild('app.search')"
+            menu-close
+            ui-sref="app.search">
+            <i class='ion-plus'></i>
+            Add Masjid
+          </ion-item>
+        </div>
       </ion-list>
     </ion-content>
   </ion-side-menu>

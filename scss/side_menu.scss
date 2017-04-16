@@ -1,0 +1,24 @@
+.side-menu{
+  .current-masjid{
+    .item-content{
+      padding: 26px 10px;
+      font-size: 14px;
+    }
+    .expander-icon {
+      font-size: 12px;
+      display: inline-block;
+      &.expanded{
+        transform: rotate(180deg);
+      }
+    }
+    .address{
+      color: #666;
+      padding-left: 20px;
+    }
+  }
+  .other-masjid{
+    padding-left: 20px;
+    background: #EEE;
+    font-size: 14px;
+  }
+}

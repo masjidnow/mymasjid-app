@@ -15,6 +15,7 @@ angular.module('mymasjid.controllers')
   }
 
   $scope.$on("$ionicView.enter", init);
+  $scope.$on("mymasjid.selectedMasjidChanged", init);
 
   ctrl.loadTimings = function(selectedMasjid){
     ctrl.errorMsg = null;
