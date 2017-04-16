@@ -1,7 +1,25 @@
 angular.module('mymasjid.controllers')
-.controller('BaseCtrl', function($scope, $ionicModal, $state, $ionicSideMenuDelegate, $localForage) {
+.controller('BaseCtrl', function(
+   $scope,
+   $ionicModal,
+   $state,
+   $ionicSideMenuDelegate,
+   $localForage,
+   $ionicPlatform,
+   $cordovaPushV5,
+   appConfig
+ ) {
 
   $scope.global = {};
+
+  function init(){
+    getStoredMasjids();
+    try{
+      registerForPush();
+    } catch(e){
+      console.error("registerForPush failed", e);
+    }
+  }
 
   function getStoredMasjids(){
     return $localForage.getItem('storedMasjids').then(function(storedMasjids){
@@ -53,43 +71,52 @@ angular.module('mymasjid.controllers')
   }
 
 
-  getStoredMasjids();
+  function registerForPush(){
+    $ionicPlatform.ready(function() {
+      $cordovaPushV5.initialize({
+        android: {
+          senderID: "TESTID"
+          // senderID: appConfig.gcmSenderId
+        },
+        ios: {
+          alert: "true",
+          badge: "true",
+          sound: "true"
+        }
+      });
+    });
+    $cordovaPushV5.register().then(function(token){
+      console.log("Successfully registered with device. Token: ", token);
+      console.log("Attempting to register for each known masjid...");
+      var preferences = null;
+      $localForage.getItem(["userPreferences", "storedMasjids"]).then(function(preferences, storedMasjids){
+        preferences = preferences || {};
+        storedMasjids = storedMasjids || [];
+        serverRegistrationPromises = _.map(storedMasjids, function(masjid){
+          return Restangular.all("push_notifications").post("register", {
+            masjid_device: {
+              src: ionic.Platform.isIOS() ? "ios" : "android",
+              platform: ionic.Platform.isIOS() ? "ios" : "android",
+              token: token,
+              masjid_id: masjid.id
+            }
+          });
+        });
+        return $q.all(serverRegistrationPromises);
+      });
+    }).then(function(responses){
+      console.log("Successfully registered with server for all masjids.");
+      console.log(responses);
+    }).finally(function(response){
+      console.error("Error when trying to register for pushes..");
+      console.log(response);
+    });
+  }
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+  $ionicPlatform.on('resume', function(){
+    console.log("Resuming application...");
+    init();
+  });
 
-  // Form data for the login modal
-  // $scope.loginData = {};
-
-  // // Create the login modal that we will use later
-  // $ionicModal.fromTemplateUrl('app/login.html', {
-  //   scope: $scope
-  // }).then(function(modal) {
-  //   $scope.modal = modal;
-  // });
-
-  // // Triggered in the login modal to close it
-  // $scope.closeLogin = function() {
-  //   $scope.modal.hide();
-  // };
-
-  // // Open the login modal
-  // $scope.login = function() {
-  //   $scope.modal.show();
-  // };
-
-  // // Perform the login action when the user submits the login form
-  // $scope.doLogin = function() {
-  //   console.log('Doing login', $scope.loginData);
-
-  //   // Simulate a login delay. Remove this and replace with your login
-  //   // code if using a login system
-  //   $timeout(function() {
-  //     $scope.closeLogin();
-  //   }, 1000);
-  // };
+  init();
 });

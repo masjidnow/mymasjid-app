@@ -10,6 +10,7 @@ angular.module('mymasjid',
     'mymasjid.controllers',
     'restangular',
     'LocalForageModule',
+    'ngCordova'
   ]
 )
 
