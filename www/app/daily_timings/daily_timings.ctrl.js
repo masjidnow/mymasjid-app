@@ -79,14 +79,13 @@ angular.module('mymasjid.controllers')
       return null;
     var now = new Date();
     var salah = "isha";
-    for(var i = ctrl.salahKeys.length-1; i >= 0; i--)
+    for(var i = 0; i < ctrl.salahKeys.length-1; i++)
     {
       var salahKey = ctrl.salahKeys[i];
       var time = timing[salahKey];
-      if(!time)
+      if(!time || time === "")
         continue;
       var salahDate = parseTime(time, salahKey);
-      console.log("Understood", salahKey, "to have time of ", salahDate);
       if(salahDate.getTime() < now.getTime())
       {
         salah = salahKey;

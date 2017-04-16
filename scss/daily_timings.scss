@@ -9,7 +9,7 @@
     min-width: 250px;
     margin: 0 auto;
     th{
-      font-size: 12px;
+      font-size: 14px;
     }
 
     .next-iqamah-indicator{
@@ -17,7 +17,7 @@
     }
 
     tr.iqamah-row td{
-      padding: 4px 2px;
+      padding: 10px 10px;
 
       &.salah-name{
         padding-right: 20px;
@@ -26,11 +26,11 @@
 
     .iqamah-time{
       text-align: center;
-      font-size: 14px;
+      font-size: 18px;
     }
     .adhan-time{
       text-align: center;
-      font-size: 14px;
+      font-size: 18px;
     }
   }
 

@@ -9824,19 +9824,19 @@ a.button {
   min-width: 250px;
   margin: 0 auto; }
   .daily-timings .iqamah-times-table th {
-    font-size: 12px; }
+    font-size: 14px; }
   .daily-timings .iqamah-times-table .next-iqamah-indicator {
     color: #ffc900; }
   .daily-timings .iqamah-times-table tr.iqamah-row td {
-    padding: 4px 2px; }
+    padding: 10px 10px; }
     .daily-timings .iqamah-times-table tr.iqamah-row td.salah-name {
       padding-right: 20px; }
   .daily-timings .iqamah-times-table .iqamah-time {
     text-align: center;
-    font-size: 14px; }
+    font-size: 18px; }
   .daily-timings .iqamah-times-table .adhan-time {
     text-align: center;
-    font-size: 14px; }
+    font-size: 18px; }
 
 .daily-timings .monthly-info {
   text-align: center;
