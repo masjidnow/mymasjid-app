@@ -1,0 +1,130 @@
+<ion-view>
+  <ion-nav-title>{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}</ion-nav-title>
+  <ion-content class='monthly-timings'>
+    <div class='loading' ng-if='ctrl.isLoading'>
+      Loading... <ion-spinner></ion-spinner>
+    </div>
+    <div class='error' ng-if='ctrl.errorMsg'>
+      {{ ctrl.errorMsg }}
+    </div>
+    <div class="card" ng-hide="ctrl.errorMsg">
+      <div class="item item-divider">
+        {{ ctrl.today | date:'MMMM y' }} Timings
+      </div>
+      <div class='item item-text-wrap' ng-if="ctrl.monthTimings == null || ctrl.monthTimings.length == 0">
+        Couldn't get any timings for {{ ctrl.today | date:'MMMM y' }}.
+      </div>
+      <div class="item item-text-wrap" ng-if="ctrl.monthTimings">
+        <ion-scroll direction="xy" locking="true" class='table-wrapper'>
+          <table class='iqamah-times-table'>
+            <tr
+              ng-repeat-start="timing in ctrl.monthTimings"
+              ng-if="$index % 7 == 0"
+              class='table-headers'>
+              <th>Day</th>
+              <th colspan="2">
+                Fajr
+              </th>
+              <th>
+                Sunrise
+              </th>
+              <th colspan="2">
+                Dhuhr
+              </th>
+              <th colspan="2">
+                Asr
+              </th>
+              <th colspan="2">
+                Maghrib
+              </th>
+              <th colspan="2">
+                Isha
+              </th>
+            </tr>
+            <tr
+              ng-if="$index % 7 == 0">
+              <th></th>
+              <th>
+                Adhan
+              </th>
+              <th>
+                Iqamah
+              </th>
+              <th>
+                <!-- sunrise -->
+              </th>
+              <th>
+                Adhan
+              </th>
+              <th>
+                Iqamah
+              </th>
+              <th>
+                Adhan
+              </th>
+              <th>
+                Iqamah
+              </th>
+              <th>
+                Adhan
+              </th>
+              <th>
+                Iqamah
+              </th>
+              <th>
+                Adhan
+              </th>
+              <th>
+                Iqamah
+              </th>
+            </tr>
+            <tr
+              ng-repeat-end
+              class='timing-row'
+              ng-class="{'active': ctrl.isToday(timing)}">
+              <td
+                class='day'>
+                {{ timing.date | date:'EEE d' }}
+              </td>
+              <td class='time adhan-time'>
+                {{ timing.fajr_adhan }}
+              </td>
+              <td class='time iqamah-time'>
+                {{ timing.fajr }}
+              </td>
+              <td class='time adhan-time'>
+                {{ timing.sunrise_adhan }}
+              </td>
+              <td class='time adhan-time'>
+                {{ timing.dhuhr_adhan }}
+              </td>
+              <td class='time iqamah-time'>
+                {{ timing.dhuhr }}
+              </td>
+              <td class='time adhan-time'>
+                {{ timing.asr_adhan }}
+              </td>
+              <td class='time iqamah-time'>
+                {{ timing.asr }}
+              </td>
+              <td class='time adhan-time'>
+                {{ timing.maghrib_adhan }}
+              </td>
+              <td class='time iqamah-time'>
+                {{ timing.maghrib }}
+              </td>
+              <td class='time adhan-time'>
+                {{ timing.isha_adhan }}
+              </td>
+              <td class='time iqamah-time'>
+                {{ timing.isha }}
+              </td>
+            </tr>
+          </table>
+        </ion-scroll> <!-- end table-wrapper -->
+      </div>
+      <div class="item monthly-info" ng-bind-html="ctrl.monthlyInfo"></div>
+    </div>
+
+  </ion-content>
+</ion-view>

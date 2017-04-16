@@ -19,7 +19,6 @@
     <ion-content class='side-menu'>
       <ion-list>
         <ion-item
-          ui-sref="app.dailyTimings"
           ng-if="global.selectedMasjid"
           ng-click="toggleShowingOtherMasjids()"
           class='current-masjid'>
@@ -55,6 +54,12 @@
             ng-if="global.selectedMasjid">
             <i class='ion-ios-clock-outline'></i>
             Daily Timings
+          </ion-item>
+          <ion-item menu-close
+            ui-sref="app.monthlyTimings"
+            ng-if="global.selectedMasjid">
+            <i class='ion-ios-clock-outline'></i>
+            Monthly Timings
           </ion-item>
           <div class='item-divider'></div>
           <ion-item

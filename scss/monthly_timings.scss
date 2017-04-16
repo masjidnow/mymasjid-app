@@ -1,0 +1,57 @@
+.monthly-timings{
+
+  .table-wrapper{
+    overflow-x: scroll;
+    height: 320px;
+    @media(min-height: 568px){
+      height: 380px;
+    }
+    @media(min-height: 667px){
+      height: 480px;
+    }
+  }
+
+  .iqamah-times-table{
+    margin: 0 auto;
+    th{
+      font-size: 12px;
+    }
+    .table-headers{
+      th{
+        background: #CCC;
+      }
+    }
+    .timing-row{
+      td{
+        padding: 2px 10px;
+      }
+      &.active{
+        td{
+          background: orange;
+        }
+      }
+      .day{
+        white-space: nowrap;
+        text-align: right;
+        padding: 0px 5px;
+      }
+      .iqamah-time{
+        text-align: center;
+        font-size: 14px;
+      }
+      .adhan-time{
+        text-align: center;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .monthly-info{
+    text-align: center;
+    padding: 10px 4px;
+    p{
+      white-space: normal;
+    }
+  }
+
+}
