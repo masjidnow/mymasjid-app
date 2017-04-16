@@ -1,0 +1,30 @@
+<ion-view>
+  <ion-nav-title>{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}</ion-nav-title>
+  <ion-content class='monthly-timings'>
+    <div class='loading' ng-if='ctrl.isLoading'>
+      Loading... <ion-spinner></ion-spinner>
+    </div>
+    <div class='error' ng-if='ctrl.errorMsg'>
+      {{ ctrl.errorMsg }}
+    </div>
+    <div class="item item-text-wrap" ng-if='!ctrl.loading && !ctrl.pushMessagesEnabled'>
+      {{ ctrl.masjid.name }}'s subscription does not include messaging.
+    </div>
+    <div ng-if='ctrl.pushMessagesEnabled'>
+      <div class="item item-text-wrap" ng-if="ctrl.messages.length == 0">
+        No messages have been received from {{ ctrl.masjid.name }}.
+      </div>
+      <div class="card" ng-hide="ctrl.errorMsg" ng-repeat="message in ctrl.messages">
+        <div class="item item-divider">
+          {{ message.sent_at * 1000 | date:'EEE MMM dd yyyy @ hh:mm a'}}
+        </div>
+        <div class="item item-text-wrap">
+          {{ message.content }}
+          <p>
+            - {{ ctrl.masjid.name }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

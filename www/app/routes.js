@@ -27,6 +27,16 @@ angular.module('mymasjid')
       }
     }
   })
+  .state('app.pushMessages', {
+    url: '/push_messages',
+    views: {
+      'menuContent': {
+        templateUrl: 'app/push_messages/push_messages.html',
+        controller: "PushMessagesCtrl",
+        controllerAs: "ctrl",
+      }
+    }
+  })
   .state('app.search', {
     url: '/search',
     views: {

@@ -61,6 +61,12 @@
             <i class='ion-ios-clock-outline'></i>
             Monthly Timings
           </ion-item>
+          <ion-item menu-close
+            ui-sref="app.pushMessages"
+            ng-if="global.selectedMasjid">
+            <i class='ion-chatbox'></i>
+            Messages
+          </ion-item>
           <div class='item-divider'></div>
           <ion-item
             ng-click="openChild('app.search')"
