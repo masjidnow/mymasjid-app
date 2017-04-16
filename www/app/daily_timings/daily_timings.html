@@ -24,13 +24,13 @@
           </tr>
           <tr class='iqamah-row {{salahKey}}' ng-repeat="salahKey in ctrl.salahKeys">
             <td class='salah-name'>
-              {{ salahNames[salahKey] }}
+              {{ ctrl.salahNames[salahKey] }}
             </td>
             <td class='adhan-time'>
               {{ ctrl.dayTimings[salahKey + "_adhan"] || "---" }}
             </td>
             <td class='iqamah-time'>
-              <span class="next-iqamah-indicator" ng-if="nextIqamah() == salahKey">
+              <span class="next-iqamah-indicator" ng-if="ctrl.nextIqamah(ctrl.dayTimings) == salahKey">
                 <i class="ion-ionic"></i>
               </span>
               {{ ctrl.dayTimings[salahKey] || "---" }}

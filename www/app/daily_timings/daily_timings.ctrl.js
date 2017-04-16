@@ -53,6 +53,121 @@ angular.module('mymasjid.controllers')
     console.error("FIXME - make text for no masjid selected");
   }
 
+  ctrl.nextIqamah = function(timing){
+    var current = getCurrentPrayer(timing);
+    if(!current)
+      return null;
+    var today = new Date();
+    if(current == "dhuhr" && today.getDay() == 5) //friday
+    {
+      // we dont want to mark dhuhr as next since
+      //its technically jummah time
+      return null;
+    }
+    if(current == "isha")
+      return "fajr";
+    else
+    {
+      var which = ctrl.salahKeys.indexOf(current);
+      which += 1;
+      return ctrl.salahKeys[which];
+    }
+  }
+
+  function getCurrentPrayer(timing){
+    if(!allParseableIqamahTimes(timing))
+      return null;
+    var now = new Date();
+    var salah = "isha";
+    for(var i = ctrl.salahKeys.length-1; i >= 0; i--)
+    {
+      var salahKey = ctrl.salahKeys[i];
+      var time = timing[salahKey];
+      if(!time)
+        continue;
+      var salahDate = parseTime(time, salahKey);
+      console.log("Understood", salahKey, "to have time of ", salahDate);
+      if(salahDate.getTime() < now.getTime())
+      {
+        salah = salahKey;
+      }
+    }
+    return salah;
+  }
+
+  var allParseableIqamahTimes = function(timing){
+    var parseable = true;
+    for(var i = 0; i < ctrl.salahKeys.length; i++)
+    {
+      var salahKey = ctrl.salahKeys[i];
+      var time = timing[salahKey];
+      if(!time)
+        continue;
+      if(isNaN(parseTime(time, salahKey)))
+      {
+        parseable = false;
+      }
+    }
+    return parseable;
+  };
+
+  var parseTime = function(timeStr, salahKey){
+    var dt = new Date();
+
+    var time = timeStr.match(/(\d+)(?::(\d\d))?\s*(p?)/i);
+    if (!time) {
+        return NaN;
+    }
+    var hours = parseInt(time[1], 10);
+    if (hours == 12 && !time[3]) {
+        hours = 0;
+    }
+    else {
+        hours += (hours < 12 && time[3]) ? 12 : 0;
+    }
+
+    // heuristics for figuring out am/pm on times that don't have it
+    if(timeStr.match(/am|pm/i) == null){
+      if(salahKey == 'dhuhr') {
+        // dhuhr is usually PM, unless it's just before noon
+        if(hours < 7)
+          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
+      } else if(salahKey == 'asr'){
+        // asr is usually PM, unless it's just before noon
+        if(hours < 10)
+          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
+      } else if(salahKey == 'maghrib'){
+        // maghrib is always PM
+        if(hours < 12)
+          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
+      } else if(salahKey == 'isha'){
+        // isha is usually PM, unless it's past midnight
+        if(hours > 4 && hours < 12)
+          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
+      }
+    }
+
+    dt.setHours(hours);
+    dt.setMinutes(parseInt(time[2], 10) || 0);
+    dt.setSeconds(0, 0);
+    return dt;
+  };
+
+  function updateLinks(){
+    var $links = document.querySelectorAll(".monthly-info a");
+    console.log("Found ", $links.length, "links to fix.");
+    for(var i =0; i < $links.length; i++) {
+      var $link = $links[i];
+      var href = $link.href;
+      console.log("Fixing link to ", href);
+      $link.onclick = function(e){
+        e.preventDefault();
+        var url = e.currentTarget.getAttribute("href");
+        window.cordova.InAppBrowser.open(url, "_system");
+      }
+    }
+  }
+
   // the keys that the template should display
   ctrl.salahKeys = [
     "fajr",
