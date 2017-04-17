@@ -1,9 +1,13 @@
 angular.module('mymasjid.controllers')
-.controller('SearchCtrl', function($scope, Restangular, $localForage, $state) {
+.controller('SearchCtrl', function($scope, Restangular, $localForage, $state, $ionicHistory) {
   var ctrl = this;
 
   function init(){
 
+  }
+
+  ctrl.goBack = function(){
+    $ionicHistory.goBack();
   }
 
   ctrl.submitSearch = function(query){
@@ -29,9 +33,22 @@ angular.module('mymasjid.controllers')
   }
 
   ctrl.selectMasjid = function(masjid){
-    $scope.setSelectedMasjid(masjid).then(function(){
-      $state.go("app.dailyTimings");
-    });
+    $localForage.getItem("storedMasjids")
+      .then(function(storedMasjids){
+        storedMasjids = storedMasjids || [];
+        var storedIndex = _.findIndex(storedMasjids, function(storedMasjid){
+          if(storedMasjid.id == masjid.id){
+            return masjid;
+          }
+        });
+        if(storedIndex != -1){
+          storedMasjids.splice(storedIndex, 1);
+        }
+        storedMasjids.unshift(masjid);
+        return $localForage.setItem("storedMasjids", storedMasjids);
+      }).then(function(){
+        ctrl.goBack();
+      });
   }
 
   ctrl.search = {};

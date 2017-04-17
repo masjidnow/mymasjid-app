@@ -10,9 +10,10 @@ angular.module('mymasjid.controllers')
    appConfig
  ) {
 
+  var ctrl = this;
   $scope.global = {};
 
-  $scope.pushesAreEnabled = true;
+  ctrl.pushesAreEnabled = true;
 
   function init(){
     getStoredMasjids();
@@ -36,22 +37,22 @@ angular.module('mymasjid.controllers')
     });
   };
 
-  $scope.hideSideMenu = function(){
+  ctrl.hideSideMenu = function(){
     $ionicSideMenuDelegate.toggleLeft(false);
     return true;
   }
 
-  $scope.openChild = function(stateName){
+  ctrl.openChild = function(stateName){
     $state.go(stateName);
     $ionicSideMenuDelegate.toggleLeft(false);
   };
 
-  $scope.toggleShowingOtherMasjids = function(){
+  ctrl.toggleShowingOtherMasjids = function(){
     $scope.showingOtherMasjids = !$scope.showingOtherMasjids;
     return true;
   }
 
-  $scope.setSelectedMasjid = function(masjid){
+  ctrl.setSelectedMasjid = function(masjid){
     return $localForage.getItem("storedMasjids")
       .then(function(storedMasjids){
         storedMasjids = storedMasjids || [];
@@ -132,5 +133,7 @@ angular.module('mymasjid.controllers')
     init();
   });
 
-  init();
+  $scope.$on("$ionicView.enter", function(){
+    getStoredMasjids();
+  });
 });

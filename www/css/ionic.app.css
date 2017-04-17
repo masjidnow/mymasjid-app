@@ -9815,6 +9815,12 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.setup {
+  padding: 20px; }
+  .setup p {
+    font-size: 16px;
+    padding-bottom: 20px; }
+
 .daily-timings .timing-date {
   font-size: 12px;
   padding: 5px;

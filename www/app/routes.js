@@ -5,7 +5,18 @@ angular.module('mymasjid')
     url: '/app',
     abstract: true,
     templateUrl: 'app/menu.html',
-    controller: 'BaseCtrl'
+    controller: 'BaseCtrl',
+    controllerAs: 'ctrl'
+  })
+  .state('app.setup', {
+    url: '/setup',
+    views: {
+      'menuContent': {
+        templateUrl: 'app/setup/setup.html',
+        controller: "SetupCtrl",
+        controllerAs: "ctrl"
+      }
+    }
   })
   .state('app.dailyTimings', {
     url: '/daily_timings',
