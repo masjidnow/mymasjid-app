@@ -30,6 +30,6 @@ angular.module('mymasjid',
   });
 })
 .config(function(RestangularProvider){
-  RestangularProvider.setBaseUrl("http://localhost:3000/api/v2");
-  // RestangularProvider.setBaseUrl("https://www.masjidnow.com/api/v2");
+  // RestangularProvider.setBaseUrl("http://localhost:3000/api/v2");
+  RestangularProvider.setBaseUrl("https://www.masjidnow.com/api/v2");
 });

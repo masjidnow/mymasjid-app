@@ -12,6 +12,8 @@ angular.module('mymasjid.controllers')
 
   $scope.global = {};
 
+  $scope.pushesAreEnabled = true;
+
   function init(){
     getStoredMasjids();
     try{
@@ -84,32 +86,44 @@ angular.module('mymasjid.controllers')
           sound: "true"
         }
       });
-    });
-    $cordovaPushV5.register().then(function(token){
-      console.log("Successfully registered with device. Token: ", token);
-      console.log("Attempting to register for each known masjid...");
-      var preferences = null;
-      $localForage.getItem(["userPreferences", "storedMasjids"]).then(function(preferences, storedMasjids){
-        preferences = preferences || {};
-        storedMasjids = storedMasjids || [];
-        serverRegistrationPromises = _.map(storedMasjids, function(masjid){
-          return Restangular.all("push_notifications").post("register", {
-            masjid_device: {
-              src: ionic.Platform.isIOS() ? "ios" : "android",
-              platform: ionic.Platform.isIOS() ? "ios" : "android",
-              token: token,
-              masjid_id: masjid.id
-            }
+
+      checkIfPushesEnabled();
+
+      $cordovaPushV5.register().then(function(token){
+        console.log("Successfully registered with device. Token: ", token);
+        console.log("Attempting to register for each known masjid...");
+        var preferences = null;
+        return $localForage.getItem(["userPreferences", "storedMasjids"]).then(function(preferences, storedMasjids){
+          preferences = preferences || {};
+          storedMasjids = storedMasjids || [];
+          serverRegistrationPromises = _.map(storedMasjids, function(masjid){
+            return Restangular.all("push_notifications").post("register", {
+              masjid_device: {
+                src: ionic.Platform.isIOS() ? "ios" : "android",
+                platform: ionic.Platform.isIOS() ? "ios" : "android",
+                token: token,
+                masjid_id: masjid.id
+              }
+            });
           });
+          return $q.all(serverRegistrationPromises);
         });
-        return $q.all(serverRegistrationPromises);
+      }, function(error){
+        console.log("register() failed");
+        console.error(error);
+      }).then(function(responses){
+        console.log("Successfully registered with server for all masjids.");
+        console.log(responses);
+      }).finally(function(response){
+        console.error("Error when trying to register for pushes..");
+        console.log(response);
       });
-    }).then(function(responses){
-      console.log("Successfully registered with server for all masjids.");
-      console.log(responses);
-    }).finally(function(response){
-      console.error("Error when trying to register for pushes..");
-      console.log(response);
+    });
+  }
+
+  function checkIfPushesEnabled(){
+    PushNotification.hasPermission(function(result){
+      $scope.pushesAreEnabled = data.isEnabled;
     });
   }
 

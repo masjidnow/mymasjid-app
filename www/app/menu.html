@@ -76,6 +76,13 @@
             Add Masjid
           </ion-item>
         </div>
+        <ion-item ng-if="!pushesAreEnabled" class='item-text-wrap push-not-enabled'>
+          <p>
+            <i class='ion-alert-circled'></i>
+            Enable push notifications to receive messages. Go to your device's Settings
+            and enable Push Notifications for this app.
+          </p>
+        </ion-item>
       </ion-list>
     </ion-content>
   </ion-side-menu>

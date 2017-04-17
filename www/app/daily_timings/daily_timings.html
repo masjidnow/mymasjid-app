@@ -38,7 +38,9 @@
           </tr>
         </table>
       </div>
-      <div class="item monthly-info" ng-bind-html="ctrl.monthlyInfo"></div>
+      <div ng-if="ctrl.monthlyInfo"
+        class="item monthly-info"
+        ng-bind-html="ctrl.monthlyInfo"></div>
     </div>
 
   </ion-content>
