@@ -1,5 +1,5 @@
 angular.module('mymasjid.controllers')
-.controller('DailyTimingsCtrl', function($scope, Restangular, $localForage) {
+.controller('DailyTimingsCtrl', function($scope, Restangular, $localForage, $timeout) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
@@ -30,6 +30,9 @@ angular.module('mymasjid.controllers')
       ctrl.masjid = masjid;
       ctrl.dayTimings = masjid.salah_timing;
       ctrl.monthlyInfo = masjid.monthly_info;
+      $timeout(function(){
+        updateMonthlyInfoLinks();
+      }, 500);
     }, function(response){
       ctrl.masjid = selectedMasjid;
       if(response.data){
@@ -153,7 +156,7 @@ angular.module('mymasjid.controllers')
     return dt;
   };
 
-  function updateLinks(){
+  function updateMonthlyInfoLinks(){
     var $links = document.querySelectorAll(".monthly-info a");
     console.log("Found ", $links.length, "links to fix.");
     for(var i =0; i < $links.length; i++) {

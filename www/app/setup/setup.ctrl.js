@@ -16,6 +16,9 @@ angular.module('mymasjid.controllers')
     });
   }
 
+  ctrl.shareSubject = "Please use MasjidNow for our masjid's timings";
+  ctrl.shareBody = "Assalamualaikum.  Jazakallahu khair for taking care of our masjid's website. Please take a look at using MasjidNow for our masjid's prayer timings. You can learn more at https://www.masjidnow.com.";
+
   $scope.$on("$ionicView.enter", init);
 
 });

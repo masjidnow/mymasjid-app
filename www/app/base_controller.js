@@ -112,19 +112,21 @@ angular.module('mymasjid.controllers')
       }, function(error){
         console.log("register() failed");
         console.error(error);
+        checkIfPushesEnabled();
       }).then(function(responses){
         console.log("Successfully registered with server for all masjids.");
         console.log(responses);
       }).finally(function(response){
         console.error("Error when trying to register for pushes..");
         console.log(response);
+        checkIfPushesEnabled();
       });
     });
   }
 
   function checkIfPushesEnabled(){
-    PushNotification.hasPermission(function(result){
-      $scope.pushesAreEnabled = data.isEnabled;
+    PushNotification.hasPermission(function hasPermissionResult(result){
+      ctrl.pushesAreEnabled = result.isEnabled;
     });
   }
 
@@ -134,6 +136,6 @@ angular.module('mymasjid.controllers')
   });
 
   $scope.$on("$ionicView.enter", function(){
-    getStoredMasjids();
+    init();
   });
 });
