@@ -1,6 +1,27 @@
 angular.module('mymasjid')
 .config(function($stateProvider, $urlRouterProvider){
   $stateProvider
+  .state('firstCheck', {
+    url: '/first_check',
+    cache: false,
+    controller: function($scope, $localForage, $state){
+
+      function checkAnyMasjids(){
+        $localForage.getItem("storedMasjids").then(function(storedMasjids){
+          if(storedMasjids == null || storedMasjids.length == 0){
+            $state.go("app.setup", {}, { location: "replace" });
+          } else {
+            $state.go("app.dailyTimings", {}, { location: "replace" });
+          }
+        }, function(error){
+          console.error("Got error", error);
+          $state.go("app.setup", {}, { location: "replace" });
+        });
+      }
+
+      checkAnyMasjids();
+    }
+  })
   .state('app', {
     url: '/app',
     abstract: true,
@@ -60,7 +81,7 @@ angular.module('mymasjid')
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/daily_timings');
+  $urlRouterProvider.otherwise('/first_check');
 })
 .run(function($rootScope){
 //  var $rootScope = angular.element(document.querySelectorAll("[ui-view]")[0]).injector().get('$rootScope');
