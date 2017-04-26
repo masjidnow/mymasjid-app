@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content>
-    <ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-positive">
       <ion-nav-back-button>
       </ion-nav-back-button>
 
@@ -14,23 +14,23 @@
 
   <ion-side-menu side="left">
     <ion-header-bar class="bar-stable">
-      <h1 class="title">MasjidNow - My Mosque</h1>
+      <h1 class="title">MyMasjid by MasjidNow</h1>
     </ion-header-bar>
     <ion-content class='side-menu'>
       <ion-list>
         <ion-item
           ng-if="global.selectedMasjid"
-          ng-click="toggleShowingOtherMasjids()"
+          ng-click="ctrl.toggleShowingOtherMasjids()"
           class='current-masjid'>
-          <i class="expander-icon ion-chevron-down" ng-class="{'expanded': showingOtherMasjids, 'contracted': !showingOtherMasjids}"></i>
+          <i class="expander-icon ion-chevron-down" ng-class="{'expanded': ctrl.showingOtherMasjids, 'contracted': !ctrl.showingOtherMasjids}"></i>
           {{ global.selectedMasjid.name }}<br/>
           <span class='address'>
             {{ global.selectedMasjid.address }}
           </span>
         </ion-item>
-        <div ng-if="showingOtherMasjids">
+        <div ng-if="ctrl.showingOtherMasjids">
           <ion-item
-            ng-if="showingOtherMasjids"
+            ng-if="ctrl.showingOtherMasjids"
             ng-repeat="masjid in otherMasjids"
             ng-click="ctrl.setSelectedMasjid(masjid) && ctrl.toggleShowingOtherMasjids() && ctrl.hideSideMenu()"
             class='other-masjid'
@@ -46,17 +46,17 @@
             Add Masjid
           </ion-item>
         </div>
-        <div ng-if="!showingOtherMasjids">
+        <div ng-if="!ctrl.showingOtherMasjids">
           <ion-item menu-close
             ui-sref="app.dailyTimings"
             ng-if="global.selectedMasjid">
-            <i class='ion-ios-clock-outline'></i>
+            <i class='ion-clock'></i>
             Daily Timings
           </ion-item>
           <ion-item menu-close
             ui-sref="app.monthlyTimings"
             ng-if="global.selectedMasjid">
-            <i class='ion-ios-clock-outline'></i>
+            <i class='ion-calendar'></i>
             Monthly Timings
           </ion-item>
           <ion-item menu-close

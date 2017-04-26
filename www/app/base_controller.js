@@ -48,7 +48,7 @@ angular.module('mymasjid.controllers')
   };
 
   ctrl.toggleShowingOtherMasjids = function(){
-    $scope.showingOtherMasjids = !$scope.showingOtherMasjids;
+    ctrl.showingOtherMasjids = !ctrl.showingOtherMasjids;
     return true;
   }
 
