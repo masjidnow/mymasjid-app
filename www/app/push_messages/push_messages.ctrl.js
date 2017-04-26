@@ -41,10 +41,11 @@ angular.module('mymasjid.controllers')
       }
     }).finally(function(){
       ctrl.isLoading = false;
+      $scope.$broadcast('scroll.refreshComplete');
     });
   }
 
   $scope.$on("$ionicView.enter", init);
   $scope.$on("mymasjid.selectedMasjidChanged", init);
-
+  ctrl.isLoading = true;
 });

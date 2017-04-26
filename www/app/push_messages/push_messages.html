@@ -7,7 +7,12 @@
     <div class='error' ng-if='ctrl.errorMsg'>
       {{ ctrl.errorMsg }}
     </div>
-    <div class="item item-text-wrap" ng-if='!ctrl.loading && !ctrl.pushMessagesEnabled'>
+    <ion-refresher
+      ng-if="ctrl.masjid"
+      pulling-text="Pull to refresh..."
+      on-refresh="ctrl.loadMessages(ctrl.masjid)">
+    </ion-refresher>
+    <div class="item item-text-wrap" ng-if='!ctrl.isLoading && !ctrl.pushMessagesEnabled'>
       {{ ctrl.masjid.name }}'s subscription does not include messaging.
     </div>
     <div ng-if='ctrl.pushMessagesEnabled'>

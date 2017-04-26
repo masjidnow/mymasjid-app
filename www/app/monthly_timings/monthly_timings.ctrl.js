@@ -49,6 +49,7 @@ angular.module('mymasjid.controllers')
       }
     }).finally(function(){
       ctrl.isLoading = false;
+      $scope.$broadcast('scroll.refreshComplete');
     });
   };
 
