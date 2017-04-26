@@ -8,6 +8,7 @@ angular.module('mymasjid',
   [
     'ionic',
     'mymasjid.controllers',
+    'mymasjid.services',
     'restangular',
     'LocalForageModule',
     'ngCordova'
