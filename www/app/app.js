@@ -25,7 +25,7 @@ angular.module('mymasjid',
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.styleDefault();
+      StatusBar.style(1); //Light
     }
   });
 })
