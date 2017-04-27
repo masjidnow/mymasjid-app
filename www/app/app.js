@@ -26,7 +26,7 @@ angular.module('mymasjid',
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
-      StatusBar.style(1); //Light
+      StatusBar.backgroundColorByHexString("#285B7B"); //Light
     }
   });
 })
