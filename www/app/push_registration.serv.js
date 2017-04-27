@@ -42,7 +42,7 @@ angular.module('mymasjid.services')
 
   function isPushEnabled(){
     var deferred = $q.defer();
-    return $ionicPlatform.ready().then(function() {
+    $ionicPlatform.ready().then(function() {
       return PushNotification.hasPermission(function hasPermissionResult(result){
         deferred.resolve(result.isEnabled);
       });
