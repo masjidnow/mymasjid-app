@@ -6,6 +6,8 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var replace = require('gulp-replace');
+var envVars = require("./app.env.json");
 
 var paths = {
   sass: ['./scss/**/*.scss']
@@ -50,4 +52,15 @@ gulp.task('git-check', function(done) {
     process.exit(1);
   }
   done();
+});
+
+gulp.task('configure', function(done){
+  gulp.src(['./env_templates/appConfig.js'])
+    .pipe(replace(/@@(\w)+/g, function(str){
+      var varName = str.replace(/^@@/, "");
+      console.log("replacing", varName, "with", envVars[varName]);
+      return envVars[varName];
+    }))
+    .pipe(gulp.dest('./www/app/'))
+    .on('end', done);
 });
