@@ -1,6 +1,7 @@
 angular.module('mymasjid.controllers')
 .controller('SetupCtrl', function($scope, $state, $localForage, $ionicHistory) {
   var ctrl = this;
+  ctrl.showWebmasterPrompt = false;
 
   function init(){
     $localForage.getItem("storedMasjids").then(function(storedMasjids){
@@ -14,6 +15,12 @@ angular.module('mymasjid.controllers')
         return;
       }
     });
+
+    if(ionic.Platform.isIOS()){
+      ctrl.showWebmasterPrompt = false;
+    } else {
+      ctrl.showWebmasterPrompt = true;
+    }
   }
 
   ctrl.shareSubject = "Please use MasjidNow for our masjid's timings";

@@ -10,7 +10,7 @@
     <p>
       <strong>If your masjid is signed up with MasjidNow.com, or using the free trial, please continue by setting your masjid.</strong>
     </p>
-    <p>
+    <p ng-if="ctrl.showWebmasterPrompt">
       Otherwise, you can ask your masjid webmaster to go to MasjidNow.com and sign up for our free 3 month trial, to create and save adhan and iqamah timings, send messages to your local Muslim community, and much more.
       <a href="mailto:your-masjid-webmaster@example.com?subject={{ctrl.shareSubject}}&body={{ctrl.shareBody}}">Share with webmaster</a>
     </p>
