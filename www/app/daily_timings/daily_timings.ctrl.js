@@ -1,5 +1,5 @@
 angular.module('mymasjid.controllers')
-.controller('DailyTimingsCtrl', function($scope, Restangular, $localForage, $timeout) {
+.controller('DailyTimingsCtrl', function($scope, Restangular, $localForage, $timeout, $ionicPlatform) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
@@ -13,7 +13,7 @@ angular.module('mymasjid.controllers')
         ctrl.loadTimings(storedMasjid);
     });
   }
-
+  $ionicPlatform.on('resume', init);
   $scope.$on("$ionicView.enter", init);
   $scope.$on("mymasjid.selectedMasjidChanged", init);
 

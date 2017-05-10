@@ -1,5 +1,5 @@
 angular.module('mymasjid.controllers')
-.controller('PushMessagesCtrl', function($scope, Restangular, $localForage) {
+.controller('PushMessagesCtrl', function($scope, Restangular, $localForage, $ionicPlatform) {
   var ctrl = this;
 
   function init(){
@@ -45,6 +45,7 @@ angular.module('mymasjid.controllers')
     });
   }
 
+  $ionicPlatform.on('resume', init);
   $scope.$on("$ionicView.enter", init);
   $scope.$on("mymasjid.selectedMasjidChanged", init);
   ctrl.isLoading = true;
