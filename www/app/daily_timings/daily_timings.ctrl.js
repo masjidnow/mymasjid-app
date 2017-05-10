@@ -21,9 +21,11 @@ angular.module('mymasjid.controllers')
     ctrl.errorMsg = null;
     ctrl.isLoading = true;
     ctrl.masjid = selectedMasjid;
+    var today = new Date();
     var params = {
       src: ionic.Platform.platform(),
-      masjid_id: selectedMasjid.id
+      masjid_id: selectedMasjid.id,
+      date: today.toString() //just to avoid 304 from the server
     };
     baseSalahTimings.customGET("daily.json", params).then(function(data){
       var masjid = data.masjid;
