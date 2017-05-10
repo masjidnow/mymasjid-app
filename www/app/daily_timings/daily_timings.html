@@ -18,8 +18,12 @@
       </div>
       <div class="item item-text-wrap" ng-if="ctrl.dayTimings">
 
-        <div class='timing-date'>
+        <div class='timing-date' ng-class="{old: !ctrl.isCurrent(ctrl.dayTimings)}">
           From {{ ctrl.getDate(ctrl.dayTimings) | date:'EEEE, MMMM dd, y' }}
+          <br/>
+          <span ng-if="!ctrl.isCurrent(ctrl.dayTimings)">
+            These timings may be out of date.
+          </span>
         </div>
         <table class='iqamah-times-table'>
           <tr>

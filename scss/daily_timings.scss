@@ -3,6 +3,9 @@
     font-size: 12px;
     padding: 5px;
     text-align: center;
+    &.old{
+      color: $energized;
+    }
   }
 
   .iqamah-times-table{

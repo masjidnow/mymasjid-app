@@ -9825,6 +9825,8 @@ a.button {
   font-size: 12px;
   padding: 5px;
   text-align: center; }
+  .daily-timings .timing-date.old {
+    color: #ffc900; }
 
 .daily-timings .iqamah-times-table {
   min-width: 250px;

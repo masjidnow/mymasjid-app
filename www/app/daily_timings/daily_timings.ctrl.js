@@ -25,7 +25,7 @@ angular.module('mymasjid.controllers')
     var params = {
       src: ionic.Platform.platform(),
       masjid_id: selectedMasjid.id,
-      date: today.toString() //just to avoid 304 from the server
+      date: today.toDateString() //just to avoid 304 from the server
     };
     baseSalahTimings.customGET("daily.json", params).then(function(data){
       var masjid = data.masjid;
@@ -57,6 +57,16 @@ angular.module('mymasjid.controllers')
 
   ctrl.showNoMasjid = function() {
     console.error("FIXME - make text for no masjid selected");
+  }
+
+  ctrl.isCurrent = function(timing){
+    var today = new Date();
+    var day = today.getDate();
+    var month = today.getMonth();
+    var year = today.getFullYear();
+    if(day != timing.day || (month + 1) != timing.month || year != timing.year)
+      return false;
+    return true;
   }
 
   ctrl.nextIqamah = function(timing){
