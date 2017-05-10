@@ -18,8 +18,12 @@
     }
     .table-headers{
       th{
-        background: #CCC;
+        background: #DDD;
       }
+    }
+    .timing-type-row{
+      font-weight: bold;
+      font-size: 11px;
     }
     .timing-row{
       td{
@@ -42,15 +46,22 @@
       .adhan-time{
         text-align: center;
         font-size: 14px;
+        color: #777;
       }
     }
   }
 
   .monthly-info{
-    text-align: center;
-    padding: 10px 4px;
+    padding: 60px 4px;
+    max-width: 320px;
     p{
       white-space: normal;
+    }
+    @media(min-width: 375px){
+      max-width: 350px;
+    }
+    @media(min-width: 414px){
+      max-width: 394px;
     }
   }
 

@@ -64,7 +64,7 @@ angular.module('mymasjid.controllers')
     var day = today.getDate();
     var month = today.getMonth();
     var year = today.getFullYear();
-    if(day != timing.day || (month + 1) != timing.month || year != timing.year)
+    if(day > timing.day || (month + 1) > timing.month || year > timing.year)
       return false;
     return true;
   }

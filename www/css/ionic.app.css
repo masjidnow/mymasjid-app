@@ -9840,11 +9840,12 @@ a.button {
     .daily-timings .iqamah-times-table tr.iqamah-row td.salah-name {
       padding-right: 20px; }
   .daily-timings .iqamah-times-table .iqamah-time {
-    text-align: center;
+    text-align: right;
     font-size: 18px; }
   .daily-timings .iqamah-times-table .adhan-time {
-    text-align: center;
-    font-size: 18px; }
+    text-align: right;
+    font-size: 18px;
+    color: #777; }
 
 .daily-timings .monthly-info {
   text-align: center;
@@ -9867,7 +9868,10 @@ a.button {
   .monthly-timings .iqamah-times-table th {
     font-size: 12px; }
   .monthly-timings .iqamah-times-table .table-headers th {
-    background: #CCC; }
+    background: #DDD; }
+  .monthly-timings .iqamah-times-table .timing-type-row {
+    font-weight: bold;
+    font-size: 11px; }
   .monthly-timings .iqamah-times-table .timing-row td {
     padding: 2px 10px; }
   .monthly-timings .iqamah-times-table .timing-row.active td {
@@ -9881,13 +9885,20 @@ a.button {
     font-size: 14px; }
   .monthly-timings .iqamah-times-table .timing-row .adhan-time {
     text-align: center;
-    font-size: 14px; }
+    font-size: 14px;
+    color: #777; }
 
 .monthly-timings .monthly-info {
-  text-align: center;
-  padding: 10px 4px; }
+  padding: 60px 4px;
+  max-width: 320px; }
   .monthly-timings .monthly-info p {
     white-space: normal; }
+  @media (min-width: 375px) {
+    .monthly-timings .monthly-info {
+      max-width: 350px; } }
+  @media (min-width: 414px) {
+    .monthly-timings .monthly-info {
+      max-width: 394px; } }
 
 .search .masjid-status {
   text-align: center;

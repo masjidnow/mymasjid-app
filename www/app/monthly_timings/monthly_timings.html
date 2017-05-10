@@ -48,7 +48,8 @@
             </th>
           </tr>
           <tr
-            ng-if="$index % 7 == 0">
+            ng-if="$index % 7 == 0"
+            class='timing-type-row'>
             <th></th>
             <th>
               Adhan
@@ -126,10 +127,17 @@
               {{ timing.isha }}
             </td>
           </tr>
+          <tr>
+            <td colspan="100">
+              <div class="monthly-info" ng-bind-html="ctrl.monthlyInfo"></div>
+            </td>
+          </tr>
         </table>
       </ion-scroll> <!-- end table-wrapper -->
     </div>
-    <div class="item monthly-info" ng-bind-html="ctrl.monthlyInfo"></div>
+    <div class="item">
+      <p>Scroll to the bottom to see monthly info.</p>
+    </div>
 
   </ion-content>
 </ion-view>
