@@ -20,7 +20,11 @@
 
         <div class='timing-date' ng-class="{old: !ctrl.isCurrent(ctrl.dayTimings)}">
           From {{ ctrl.getDate(ctrl.dayTimings) | date:'EEEE, MMMM dd, y' }}
-          <br/>
+          <div
+            ng-if="ctrl.dayTimings.hijri_date"
+            class='hijri-date'>
+            {{ ctrl.dayTimings.hijri_date }}
+          </div>
           <span ng-if="!ctrl.isCurrent(ctrl.dayTimings)">
             These timings may be out of date.
           </span>

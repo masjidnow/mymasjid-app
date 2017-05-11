@@ -28,6 +28,9 @@
             ng-if="$index % 7 == 0"
             class='table-headers'>
             <th>Day</th>
+            <th ng-if="timing.hijri_date">
+              Hijri Date
+            </th>
             <th colspan="2">
               Fajr
             </th>
@@ -51,6 +54,7 @@
             ng-if="$index % 7 == 0"
             class='timing-type-row'>
             <th></th>
+            <th ng-if="timing.hijri_date"></th>
             <th>
               Adhan
             </th>
@@ -92,6 +96,11 @@
             <td
               class='day'>
               {{ timing.date | date:'EEE d' }}
+            </td>
+            <td
+              ng-if="timing.hijri_date"
+              class='day'>
+              {{ timing.hijri_date }}
             </td>
             <td class='time adhan-time'>
               {{ timing.fajr_adhan }}
