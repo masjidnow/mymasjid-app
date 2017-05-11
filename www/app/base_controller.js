@@ -21,6 +21,7 @@ angular.module('mymasjid.controllers')
   function init(){
     getStoredMasjids().then(
       registerForPush);
+    clearPushBadges();
   }
 
   function getStoredMasjids(){
@@ -94,6 +95,12 @@ angular.module('mymasjid.controllers')
   function checkIfPushesEnabled(){
     PushRegistration.isPushEnabled().then(function(isEnabled){
       ctrl.pushesAreEnabled = isEnabled;
+    });
+  }
+
+  function clearPushBadges(){
+    $ionicPlatform.ready(function(){
+      $cordovaPushV5.setBadgeNumber(0);
     });
   }
 
