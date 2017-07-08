@@ -33,4 +33,9 @@ angular.module('mymasjid',
 .config(function(RestangularProvider){
   // RestangularProvider.setBaseUrl("http://localhost:3000/api/v2");
   RestangularProvider.setBaseUrl("https://www.masjidnow.com/api/v2");
+})
+.run(function($http, appConfig) {
+  if(appConfig.apiAuthToken == null)
+    throw new Error("apiAuthToken must be specified in the appConfig");
+  $http.defaults.headers.common.Authorization = 'Token token='+appConfig.apiAuthToken;
 });
