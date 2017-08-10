@@ -9927,6 +9927,8 @@ a.button {
   padding-left: 20px;
   background: #EEE;
   font-size: 14px; }
+  .side-menu .other-masjid .button {
+    color: #333; }
 
 .side-menu .push-not-enabled {
   background: #ffc900;

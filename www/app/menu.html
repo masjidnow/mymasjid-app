@@ -33,10 +33,17 @@
             ng-if="ctrl.showingOtherMasjids"
             ng-repeat="masjid in otherMasjids"
             ng-click="ctrl.setSelectedMasjid(masjid) && ctrl.toggleShowingOtherMasjids() && ctrl.hideSideMenu()"
-            class='other-masjid'
+            class='other-masjid item-button-right'
             menu-close>
             <span class='ion-ios-checkmark-outline'></span>
             {{ masjid.name }}
+
+            <button
+              ng-click="ctrl.removeMasjid(masjid); $event.stopPropagation();"
+              class="button button-clear"
+              >
+              <i class="icon ion-close-round"></i>
+            </button>
           </ion-item>
           <ion-item
             ng-click="ctrl.openChild('app.search')"

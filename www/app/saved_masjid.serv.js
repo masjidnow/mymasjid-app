@@ -36,7 +36,15 @@ angular.module('mymasjid.services')
   }
 
   function removeStoredMasjid(masjid){
-    console.error("removeStoredMasjid not implemented");
+    return getItem("storedMasjids").then(function(storedMasjids){
+      var storedIndex = _.findIndex(storedMasjids, {id: masjid.id});
+      if(storedIndex != -1){
+        storedMasjids.splice(storedIndex, 1);
+      }
+      return setItem("storedMasjids", storedMasjids);
+    }).then(function(){
+      return masjid;
+    });
   }
 
   function setItem(key, val){

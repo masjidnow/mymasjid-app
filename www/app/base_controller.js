@@ -10,7 +10,8 @@ angular.module('mymasjid.controllers')
    appConfig,
    Restangular,
    PushRegistration,
-   SavedMasjid
+   SavedMasjid,
+   $ionicPopup
  ) {
 
   var ctrl = this;
@@ -60,6 +61,20 @@ angular.module('mymasjid.controllers')
     .then(registerForPush);
   }
 
+  ctrl.removeMasjid = function(masjid){
+    var confirmPopup = $ionicPopup.confirm({
+       title: 'Remove Masjid?',
+       template: 'Are you sure you want to remove this masjid?'
+     });
+
+    confirmPopup.then(function(confirmed) {
+     if(!confirmed)
+       return;
+     SavedMasjid.removeStoredMasjid(masjid).then(function(storedMasjid){
+       console.log("Removed masjid", storedMasjid);
+     }).then(getStoredMasjids);
+    });
+  }
 
   function registerForPush(){
     $ionicPlatform.ready(function() {
