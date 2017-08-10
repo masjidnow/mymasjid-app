@@ -2,7 +2,8 @@
   "name": "HelloIonic",
   "private": "true",
   "devDependencies": {
-    "ionic": "driftyco/ionic-bower#1.3.3"
+    "ionic": "driftyco/ionic-bower#1.3.3",
+    "ngcordova-wrapper-nativestorage": "git://github.com/TheCocoaProject/ngcordova-wrapper-nativestorage"
   },
   "dependencies": {
     "restangular": "^1.6.1",

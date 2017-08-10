@@ -4,11 +4,11 @@ angular.module('mymasjid')
   .state('firstCheck', {
     url: '/first_check',
     cache: false,
-    controller: function($scope, $localForage, $state){
+    controller: function($scope, SavedMasjid, $state){
 
       function checkAnyMasjids(){
-        $localForage.getItem("storedMasjids").then(function(storedMasjids){
-          if(storedMasjids == null || storedMasjids.length == 0){
+        SavedMasjid.getMasjids().then(function(storedMasjids){
+          if(storedMasjids.length == 0){
             $state.go("app.setup", {}, { location: "replace" });
           } else {
             $state.go("app.dailyTimings", {}, { location: "replace" });

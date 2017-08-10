@@ -11,7 +11,8 @@ angular.module('mymasjid',
     'mymasjid.services',
     'restangular',
     'LocalForageModule',
-    'ngCordova'
+    'ngCordova',
+    'ngCordova.plugins.nativeStorage',
   ]
 )
 

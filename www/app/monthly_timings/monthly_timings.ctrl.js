@@ -1,13 +1,13 @@
 angular.module('mymasjid.controllers')
-.controller('MonthlyTimingsCtrl', function($scope, Restangular, $localForage, $ionicPlatform) {
+.controller('MonthlyTimingsCtrl', function($scope, Restangular, SavedMasjid, $ionicPlatform) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
     ctrl.today = new Date();
     ctrl.todayStr = ctrl.today.getYear() + "-" + ctrl.today.getMonth() + "-" + ctrl.today.getDate();
-    $localForage.getItem("storedMasjids").then(function(storedMasjids){
-      return (storedMasjids || [])[0];
+    SavedMasjid.getMasjids().then(function(storedMasjids){
+      return storedMasjids[0];
     }).then(function(storedMasjid){
       if(storedMasjid == null)
         ctrl.showNoMasjid();

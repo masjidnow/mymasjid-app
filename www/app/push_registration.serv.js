@@ -4,11 +4,14 @@ angular.module('mymasjid.services')
   $ionicPlatform,
   $cordovaPushV5,
   appConfig,
-  $localForage,
   $q
   ) {
 
   function initialize() {
+    if(window.PushNotification == null){
+      console.error("Couldn't find PushNotification, only available on device.");
+      return;
+    }
     $cordovaPushV5.initialize({
       android: {
         // senderID: "TESTID"
@@ -23,6 +26,10 @@ angular.module('mymasjid.services')
   }
 
   function register(masjidId){
+    if(window.PushNotification == null){
+      console.error("Couldn't find PushNotification, only available on device.");
+      return $q.defer().promise;
+    }
     return $cordovaPushV5.register().then(function(token){
       console.log("Successfully registered with device. Token: ", token);
       var platform = ionic.Platform.isIOS() ? "mymasjid-ios" : "mymasjid-android";
@@ -42,6 +49,10 @@ angular.module('mymasjid.services')
 
   function isPushEnabled(){
     var deferred = $q.defer();
+    if(window.PushNotification == null){
+      console.error("Couldn't find PushNotification, only available on device.");
+      return $q.defer().promise;
+    }
     $ionicPlatform.ready().then(function() {
       return PushNotification.hasPermission(function hasPermissionResult(result){
         deferred.resolve(result.isEnabled);

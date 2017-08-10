@@ -1,10 +1,10 @@
 angular.module('mymasjid.controllers')
-.controller('DailyTimingsCtrl', function($scope, Restangular, $localForage, $timeout, $ionicPlatform) {
+.controller('DailyTimingsCtrl', function($scope, Restangular, SavedMasjid, $timeout, $ionicPlatform) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
-    $localForage.getItem("storedMasjids").then(function(storedMasjids){
+    SavedMasjid.getMasjids().then(function(storedMasjids){
       return (storedMasjids || [])[0];
     }).then(function(storedMasjid){
       if(storedMasjid == null)

@@ -1,11 +1,11 @@
 angular.module('mymasjid.controllers')
-.controller('PushMessagesCtrl', function($scope, Restangular, $localForage, $ionicPlatform) {
+.controller('PushMessagesCtrl', function($scope, Restangular, SavedMasjid, $ionicPlatform) {
   var ctrl = this;
 
   function init(){
     ctrl.today = new Date();
     ctrl.pushMessagesEnabled = true;
-    $localForage.getItem("storedMasjids").then(function(storedMasjids){
+    SavedMasjid.getMasjids().then(function(storedMasjids){
       return (storedMasjids || [])[0];
     }).then(function(storedMasjid){
       if(storedMasjid == null)

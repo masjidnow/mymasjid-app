@@ -1,11 +1,11 @@
 angular.module('mymasjid.controllers')
-.controller('SetupCtrl', function($scope, $state, $localForage, $ionicHistory) {
+.controller('SetupCtrl', function($scope, $state, SavedMasjid, $ionicHistory) {
   var ctrl = this;
   ctrl.showWebmasterPrompt = false;
 
   function init(){
-    $localForage.getItem("storedMasjids").then(function(storedMasjids){
-      return (storedMasjids || [])[0];
+    SavedMasjid.getMasjids().then(function(storedMasjids){
+      return storedMasjids[0];
     }).then(function(storedMasjid){
       if(storedMasjid != null) {
         $ionicHistory.nextViewOptions({

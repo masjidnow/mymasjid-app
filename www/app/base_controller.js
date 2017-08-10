@@ -4,13 +4,13 @@ angular.module('mymasjid.controllers')
    $ionicModal,
    $state,
    $ionicSideMenuDelegate,
-   $localForage,
    $ionicPlatform,
    $cordovaPushV5,
    $q,
    appConfig,
    Restangular,
-   PushRegistration
+   PushRegistration,
+   SavedMasjid
  ) {
 
   var ctrl = this;
@@ -25,8 +25,7 @@ angular.module('mymasjid.controllers')
   }
 
   function getStoredMasjids(){
-    return $localForage.getItem('storedMasjids').then(function(storedMasjids){
-      storedMasjids = storedMasjids || [];
+    return SavedMasjid.getMasjids().then(function(storedMasjids){
       $scope.otherMasjids = storedMasjids.slice(1);
       if(storedMasjids.length == 0)
         return null;
@@ -53,25 +52,12 @@ angular.module('mymasjid.controllers')
   }
 
   ctrl.setSelectedMasjid = function(masjid){
-    return $localForage.getItem("storedMasjids")
-      .then(function(storedMasjids){
-        storedMasjids = storedMasjids || [];
-        var storedIndex = _.findIndex(storedMasjids, function(storedMasjid){
-          if(storedMasjid.id == masjid.id){
-            return masjid;
-          }
-        });
-        if(storedIndex != -1){
-          storedMasjids.splice(storedIndex, 1);
-        }
-        storedMasjids.unshift(masjid);
-        $scope.global.selectedMasjid = masjid;
-        return $localForage.setItem("storedMasjids", storedMasjids);
-      }).then(function(){
-        $scope.$broadcast("mymasjid.selectedMasjidChanged");
-      })
-      .then(getStoredMasjids)
-      .then(registerForPush);
+    return SavedMasjid.setSelected(masjid).then(function(selectedMasjid){
+      $scope.global.selectedMasjid = masjid;
+      $scope.$broadcast("mymasjid.selectedMasjidChanged");
+    })
+    .then(getStoredMasjids)
+    .then(registerForPush);
   }
 
 
