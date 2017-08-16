@@ -12,7 +12,7 @@ angular.module('mymasjid.controllers')
    PushRegistration,
    SavedMasjid,
    $ionicPopup,
-   $cordovaLaunchNavigator
+   $jukakuLaunchNavigator
  ) {
 
   var ctrl = this;
@@ -87,7 +87,7 @@ angular.module('mymasjid.controllers')
   ctrl.navigateToMasjid = function(masjid){
     var destination = [masjid.latitude, masjid.longitude];
     var start = null;
-    $cordovaLaunchNavigator.navigate(destination, start).then(function() {
+    $jukakuLaunchNavigator.navigate(destination).then(function() {
       console.log("Navigator launched");
     }, function (err) {
       console.error(err);
