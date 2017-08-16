@@ -11,7 +11,8 @@ angular.module('mymasjid.controllers')
    Restangular,
    PushRegistration,
    SavedMasjid,
-   $ionicPopup
+   $ionicPopup,
+   $cordovaLaunchNavigator
  ) {
 
   var ctrl = this;
@@ -75,6 +76,23 @@ angular.module('mymasjid.controllers')
      }).then(getStoredMasjids);
     });
   }
+
+  ctrl.canNavigate = function(){
+    if($scope.global.selectedMasjid == null){
+      return false;
+    }
+    return true;
+  }
+
+  ctrl.navigateToMasjid = function(masjid){
+    var destination = [masjid.latitude, masjid.longitude];
+    var start = null;
+    $cordovaLaunchNavigator.navigate(destination, start).then(function() {
+      console.log("Navigator launched");
+    }, function (err) {
+      console.error(err);
+    });
+  };
 
   function registerForPush(){
     $ionicPlatform.ready(function() {

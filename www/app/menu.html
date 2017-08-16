@@ -72,6 +72,12 @@
             <i class='ion-chatbox'></i>
             Messages
           </ion-item>
+          <ion-item menu-close
+            ng-if="ctrl.canNavigate()"
+            ng-click="ctrl.navigateToMasjid(global.selectedMasjid)">
+            <i class='ion-navigate'></i>
+            Directions To...
+          </ion-item>
           <div class='item-divider'></div>
           <ion-item
             ng-click="ctrl.openChild('app.search')"
