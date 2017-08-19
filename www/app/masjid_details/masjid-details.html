@@ -1,0 +1,46 @@
+<ion-view>
+  <ion-nav-title>{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}</ion-nav-title>
+  <ion-content class='masjid-details'>
+    <div class='loading' ng-if='ctrl.isLoading'>
+      Loading... <ion-spinner></ion-spinner>
+    </div>
+    <div class='error' ng-if='ctrl.errorMsg'>
+      {{ ctrl.errorMsg }}
+    </div>
+    <ion-refresher
+      ng-if="ctrl.masjid"
+      pulling-text="Pull to refresh..."
+      on-refresh="ctrl.loadMasjid(ctrl.masjid)">
+    </ion-refresher>
+    <div ng-hide="ctrl.errorMsg">
+      <div
+        class="item masjid-name"
+        ng-style="ctrl.masjidNameStyle"
+        ng-class="{'with-image-background': (ctrl.masjid.cover_photo_url != null)}">
+        {{ ctrl.masjid.name }}
+      </div>
+      <div
+        ng-if="ctrl.masjid.address && ctrl.masjid.address != ''"
+        class="item item-icon-left">
+        <i class='icon ion-location'></i>
+        {{ ctrl.masjid.address }}
+      </div>
+      <a
+        ng-if="ctrl.masjid.phone && ctrl.masjid.phone != ''"
+        class="item item-icon-left"
+        ng-href="tel:{{ ctrl.masjid.phone }}">
+        <i class='icon ion-ios-telephone'></i>
+        {{ ctrl.masjid.phone }}
+      </a>
+      <div
+        ng-if="ctrl.masjid.website && ctrl.masjid.website != ''"
+        class="item item-icon-left"
+        ng-href="ctrl.masjid.website">
+        <i class='icon ion-ios-world-outline'></i>
+        {{ ctrl.masjid.website }}
+      </div>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

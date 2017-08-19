@@ -74,6 +74,12 @@
             <i class='ion-chatbox'></i>
             Messages
           </ion-item>
+          <ion-item menu-close
+            ui-sref="app.masjidDetails"
+            ng-if="global.selectedMasjid">
+            <i class='ion-information-circled'></i>
+            Masjid Info
+          </ion-item>
           <div class='item-divider'></div>
           <ion-item
             ng-click="ctrl.openChild('app.search')"

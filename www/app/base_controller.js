@@ -53,7 +53,7 @@ angular.module('mymasjid.controllers')
     // set style for menu item
     var style = {};
     if(masjid.cover_photo_url != null){
-      style["background-image"] = "linear-gradient(to bottom, rgba(0,0,0,.1), black), url('" + masjid.cover_photo_url + "')";
+      style["background-image"] = "linear-gradient(to bottom, rgba(0,0,0,.1), black), url('" + masjid.cover_photo_url + "'), linear-gradient(to top, black, black)";
       style["background-size"] = "contain, contain";
       style["background-repeat"] = "no-repeat, no-repeat";
     }
