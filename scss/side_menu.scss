@@ -1,5 +1,14 @@
 .side-menu{
   .current-masjid{
+    &.with-image-background{
+      padding-top: 160px;
+      color: white;
+      background-size: contain;
+      font-weight: bold;
+      .address{
+        color: #EEE;
+      }
+    }
     .item-content{
       padding: 26px 10px;
       font-size: 14px;

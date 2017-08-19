@@ -34,8 +34,32 @@ angular.module('mymasjid.controllers')
         return storedMasjids[0];
     }).then(function(storedMasjid){
       $scope.global.selectedMasjid = storedMasjid;
-    });
+      return storedMasjid;
+    })
+    .then(refreshMasjid)
+    .then(setMenuStyle)
   };
+
+  function refreshMasjid(){
+    var masjid = $scope.global.selectedMasjid;
+    return Restangular.all("masjids").get(masjid.id).then(function(response){
+      var masjid = response.masjid;
+      console.log("Got refreshed masjid", masjid);
+      return SavedMasjid.setSelected(masjid);
+    });
+  }
+
+  function setMenuStyle(masjid){
+    // set style for menu item
+    var style = {};
+    if(masjid.cover_photo_url != null){
+      style["background-image"] = "linear-gradient(to bottom, rgba(0,0,0,.1), black), url('" + masjid.cover_photo_url + "')";
+      style["background-size"] = "contain, contain";
+      style["background-repeat"] = "no-repeat, no-repeat";
+    }
+    ctrl.selectedMasjidStyle = style;
+    return masjid;
+  }
 
   ctrl.hideSideMenu = function(){
     $ionicSideMenuDelegate.toggleLeft(false);
@@ -56,9 +80,12 @@ angular.module('mymasjid.controllers')
     return SavedMasjid.setSelected(masjid).then(function(selectedMasjid){
       $scope.global.selectedMasjid = masjid;
       $scope.$broadcast("mymasjid.selectedMasjidChanged");
+      return masjid;
     })
+    .then(setMenuStyle)
     .then(getStoredMasjids)
-    .then(registerForPush);
+    .then(registerForPush)
+    .then(refreshMasjid);
   }
 
   ctrl.removeMasjid = function(masjid){
@@ -77,7 +104,7 @@ angular.module('mymasjid.controllers')
   }
 
   function registerForPush(){
-    $ionicPlatform.ready(function() {
+    return $ionicPlatform.ready(function() {
       checkIfPushesEnabled();
       var masjid = $scope.global.selectedMasjid;
       if(masjid == null)

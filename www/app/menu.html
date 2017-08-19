@@ -21,7 +21,9 @@
         <ion-item
           ng-if="global.selectedMasjid"
           ng-click="ctrl.toggleShowingOtherMasjids()"
-          class='current-masjid'>
+          class='current-masjid'
+          ng-class="{'with-image-background': (global.selectedMasjid.cover_photo_url != null)}"
+          ng-style="ctrl.selectedMasjidStyle">
           <i class="expander-icon ion-chevron-down" ng-class="{'expanded': ctrl.showingOtherMasjids, 'contracted': !ctrl.showingOtherMasjids}"></i>
           {{ global.selectedMasjid.name }}<br/>
           <span class='address'>
@@ -31,7 +33,7 @@
         <div ng-if="ctrl.showingOtherMasjids">
           <ion-item
             ng-if="ctrl.showingOtherMasjids"
-            ng-repeat="masjid in otherMasjids"
+            ng-repeat="masjid in otherMasjids track by masjid.id"
             ng-click="ctrl.setSelectedMasjid(masjid) && ctrl.toggleShowingOtherMasjids() && ctrl.hideSideMenu()"
             class='other-masjid item-button-right'
             menu-close>

@@ -9909,6 +9909,14 @@ a.button {
 .search .masjid-info {
   padding: 10px; }
 
+.side-menu .current-masjid.with-image-background {
+  padding-top: 160px;
+  color: white;
+  background-size: contain;
+  font-weight: bold; }
+  .side-menu .current-masjid.with-image-background .address {
+    color: #EEE; }
+
 .side-menu .current-masjid .item-content {
   padding: 26px 10px;
   font-size: 14px; }
