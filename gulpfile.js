@@ -58,8 +58,11 @@ gulp.task('configure', function(done){
   gulp.src(['./env_templates/appConfig.js'])
     .pipe(replace(/@@(\w)+/g, function(str){
       var varName = str.replace(/^@@/, "");
-      console.log("replacing", varName, "with", envVars[varName]);
-      return envVars[varName];
+      var val = envVars[varName] || null;
+      if(val != null)
+        val = "\"" + val + "\"";
+      console.log("replacing", varName, "with", val);
+      return val;
     }))
     .pipe(gulp.dest('./www/app/'))
     .on('end', done);

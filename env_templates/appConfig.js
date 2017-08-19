@@ -1,5 +1,5 @@
 angular.module('mymasjid')
 .constant('appConfig', {
-  gcmSenderId: "@@gcmSenderId",
-  apiAuthToken: "@@apiAuthToken"
+  gcmSenderId: @@gcmSenderId,
+  apiAuthToken: @@apiAuthToken
 });
