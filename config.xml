@@ -83,6 +83,7 @@
   </plugin>
   <plugin name="cordova-plugin-inappbrowser" spec="~1.7.0"/>
   <plugin name="cordova-plugin-nativestorage" spec="~2.2.2" />
+  <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="~4.0.4" />
   <engine name="ios" spec="~4.3.1"/>
   <engine name="android" spec="~6.1.2"/>
   <icon src="resources/android/icon/xhdpi/ic_launcher_APP.png"/>
