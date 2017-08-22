@@ -1,0 +1,10 @@
+.masjid-details{
+
+  .masjid-name{
+    font-weight: bold;
+    &.with-image-background{
+      padding-top: 100px;
+      color: white;
+    }
+  }
+}
