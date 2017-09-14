@@ -1,6 +1,7 @@
 angular.module('mymasjid.controllers')
 .controller('BaseCtrl', function(
    $scope,
+   $rootScope,
    $ionicModal,
    $state,
    $ionicSideMenuDelegate,
@@ -157,5 +158,13 @@ angular.module('mymasjid.controllers')
 
   $scope.$on("$ionicView.enter", function(){
     init();
+  });
+
+  $rootScope.$on('$cordovaPushV5:notificationReceived', function(event, notification){
+    console.log("Got push notification. Event: ", event, ". Notification", notification);
+    $state.go("app.pushMessages");
+    if(notification.additionalData.foreground){
+      alert(notification.message);
+    }
   });
 });
