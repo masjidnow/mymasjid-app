@@ -69,6 +69,16 @@ angular.module('mymasjid')
       }
     }
   })
+  .state('app.masjidDetails', {
+    url: '/masjid-details',
+    views: {
+      'menuContent': {
+        templateUrl: 'app/masjid_details/masjid-details.html',
+        controller: "MasjidDetailsCtrl",
+        controllerAs: "ctrl",
+      }
+    }
+  })
   .state('app.search', {
     url: '/search',
     views: {

@@ -9900,6 +9900,12 @@ a.button {
     .monthly-timings .monthly-info {
       max-width: 394px; } }
 
+.masjid-details .masjid-name {
+  font-weight: bold; }
+  .masjid-details .masjid-name.with-image-background {
+    padding-top: 100px;
+    color: white; }
+
 .search .masjid-status {
   text-align: center;
   font-size: 12px; }
