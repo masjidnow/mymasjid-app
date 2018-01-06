@@ -1,0 +1,16 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">Choose Month</h1>
+    <button class="button button-clear button-primary" ng-click="monthPickerModal.hide()">Cancel</button>
+  </ion-header-bar>
+  <ion-content class="padding" ng-controller="MonthPickerModalCtrl as ctrl">
+    <div class="list">
+      <button class="button button-full button-positive"
+        ng-repeat="monthDate in ctrl.monthDates"
+        ng-click="monthPickerModal.hide(); loadTimingsForDate(monthDate)"
+        >
+        {{ monthDate | date:'MMMM y' }}
+      </button>
+    </div>
+  </ion-content>
+</ion-modal-view>

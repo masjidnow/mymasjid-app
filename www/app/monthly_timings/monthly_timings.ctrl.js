@@ -1,26 +1,42 @@
 angular.module('mymasjid.controllers')
-.controller('MonthlyTimingsCtrl', function($scope, Restangular, SavedMasjid, $ionicPlatform) {
+.controller('MonthlyTimingsCtrl', function(
+  $scope,
+  Restangular,
+  SavedMasjid,
+  $ionicPlatform,
+  $ionicModal
+  ) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
     ctrl.today = new Date();
     ctrl.todayStr = ctrl.today.getYear() + "-" + ctrl.today.getMonth() + "-" + ctrl.today.getDate();
+    ctrl.displayedDate = new Date();
     SavedMasjid.getMasjids().then(function(storedMasjids){
       return storedMasjids[0];
     }).then(function(storedMasjid){
       if(storedMasjid == null)
         ctrl.showNoMasjid();
       else
-        ctrl.loadTimings(storedMasjid);
+        ctrl.loadTimings(storedMasjid, ctrl.today);
     });
+  }
+
+  function leave(){
+    if($scope.monthPickerModal !== null) {
+      $scope.monthPickerModal.remove();
+      $scope.monthPickerModal = null;
+    }
   }
 
   $ionicPlatform.on('resume', init);
   $scope.$on("$ionicView.enter", init);
+  $scope.$on("$ionicView.leave", leave);
   $scope.$on("mymasjid.selectedMasjidChanged", init);
 
-  ctrl.loadTimings = function(selectedMasjid){
+  ctrl.loadTimings = function(selectedMasjid, date){
+    ctrl.displayedDate = date;
     ctrl.errorMsg = null;
     ctrl.isLoading = true;
     ctrl.masjid = selectedMasjid;
@@ -28,8 +44,8 @@ angular.module('mymasjid.controllers')
     var params = {
       src: ionic.Platform.platform(),
       masjid_id: selectedMasjid.id,
-      month: today.getMonth()+1,
-      year: today.getYear() + 1900
+      month: date.getMonth() + 1,
+      year: date.getFullYear()
     };
     baseSalahTimings.customGET("monthly.json", params).then(function(data){
       var masjid = data.masjid;
@@ -61,8 +77,34 @@ angular.module('mymasjid.controllers')
     return ctrl.todayStr == timing.dateStr;
   }
 
+  ctrl.isThisMonth = function(date){
+    return ctrl.today.getMonth() == date.getMonth() && ctrl.today.getFullYear() == date.getFullYear();
+  }
+
+  ctrl.resetDate = function(){
+    ctrl.loadTimings(ctrl.masjid, new Date());
+  }
+
   ctrl.showNoMasjid = function() {
     console.error("FIXME - make text for no masjid selected");
+  }
+
+  ctrl.showMonthPicker = function(){
+    if($scope.monthPickerModal == null) {
+      $ionicModal.fromTemplateUrl('app/monthly_timings/month_picker_modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.monthPickerModal = modal;
+        $scope.monthPickerModal.show();
+      });
+    } else {
+      $scope.monthPickerModal.show();
+    }
+  }
+
+  $scope.loadTimingsForDate = function(date){
+    ctrl.loadTimings(ctrl.masjid, date);
   }
 
   // the keys that the template should display
