@@ -73,7 +73,6 @@ angular.module('mymasjid.controllers')
   };
 
   ctrl.refresh = function(){
-    ctrl.displayedDate = new Date();
     ctrl.loadTimings(ctrl.masjid, ctrl.displayedDate);
   }
 
@@ -86,6 +85,7 @@ angular.module('mymasjid.controllers')
   }
 
   ctrl.resetDate = function(){
+    ctrl.displayedDate = new Date();
     ctrl.refresh();
   }
 
