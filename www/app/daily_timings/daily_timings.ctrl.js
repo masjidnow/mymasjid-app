@@ -105,8 +105,8 @@ angular.module('mymasjid.controllers')
     var month = displayedDate.getMonth();
     var year = displayedDate.getFullYear();
     if(day > timing.day || (month + 1) > timing.month || year > timing.year)
-      return false;
-    return true;
+      return true;
+    return false;
   }
 
   ctrl.nextIqamah = function(timing){
