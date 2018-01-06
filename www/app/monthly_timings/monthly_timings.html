@@ -17,7 +17,7 @@
     <div class="item item-divider">
       {{ ctrl.today | date:'MMMM y' }} Timings
     </div>
-    <div class='item item-text-wrap' ng-if="ctrl.monthTimings == null || ctrl.monthTimings.length == 0">
+    <div class='item item-text-wrap' ng-if="!ctrl.isLoading && (ctrl.monthTimings == null || ctrl.monthTimings.length == 0)">
       Couldn't get any timings for {{ ctrl.today | date:'MMMM y' }}.
     </div>
     <div class="item item-text-wrap" ng-if="ctrl.monthTimings">

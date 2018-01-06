@@ -24,9 +24,12 @@ angular.module('mymasjid.controllers')
     ctrl.errorMsg = null;
     ctrl.isLoading = true;
     ctrl.masjid = selectedMasjid;
+    var today = new Date();
     var params = {
       src: ionic.Platform.platform(),
-      masjid_id: selectedMasjid.id
+      masjid_id: selectedMasjid.id,
+      month: today.getMonth()+1,
+      year: today.getYear() + 1900
     };
     baseSalahTimings.customGET("monthly.json", params).then(function(data){
       var masjid = data.masjid;
