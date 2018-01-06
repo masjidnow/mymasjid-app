@@ -34,6 +34,10 @@ angular.module('mymasjid.controllers')
     })
   }
 
+  ctrl.openWebsite = function(url){
+    window.cordova.InAppBrowser.open(url, "_system");
+  }
+
   function setMasjidNameStyle(masjid){
     var style = {};
     style["background-image"] = "";

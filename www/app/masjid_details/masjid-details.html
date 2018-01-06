@@ -35,7 +35,7 @@
       <a
         ng-if="ctrl.masjid.website && ctrl.masjid.website != ''"
         class="item item-icon-left"
-        href="{{ctrl.masjid.website}}">
+        ng-click="ctrl.openWebsite(ctrl.masjid.website)">
         <i class='icon ion-ios-world-outline'></i>
         {{ ctrl.masjid.website }}
       </a>
