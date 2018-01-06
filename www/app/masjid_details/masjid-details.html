@@ -32,13 +32,13 @@
         <i class='icon ion-ios-telephone'></i>
         {{ ctrl.masjid.phone }}
       </a>
-      <div
+      <a
         ng-if="ctrl.masjid.website && ctrl.masjid.website != ''"
         class="item item-icon-left"
-        ng-href="ctrl.masjid.website">
+        href="{{ctrl.masjid.website}}">
         <i class='icon ion-ios-world-outline'></i>
         {{ ctrl.masjid.website }}
-      </div>
+      </a>
         </div>
       </div>
     </div>
