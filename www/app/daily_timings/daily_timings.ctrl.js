@@ -64,7 +64,7 @@ angular.module('mymasjid.controllers')
         ctrl.errorMsg = error;
       }
       else{
-        ctrl.errorMsg = "Couldn't connect to MasjidNow. Pleae check your internet connection."
+        ctrl.errorMsg = "Couldn't connect to MasjidNow. Please check your internet connection."
       }
     }).finally(function(){
       ctrl.isLoading = false;

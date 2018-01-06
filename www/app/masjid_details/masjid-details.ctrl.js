@@ -12,8 +12,26 @@ angular.module('mymasjid.controllers')
       return storedMasjids[0];
     }).then(function(storedMasjid){
       ctrl.masjid = storedMasjid;
+      ctrl.loadMasjid(ctrl.masjid);
       return storedMasjid;
     }).then(setMasjidNameStyle);
+  }
+
+  ctrl.loadMasjid = function(selectedMasjid){
+    Restangular.one("masjids", selectedMasjid.id).get().then(function(response){
+      ctrl.masjid = response.masjid;
+    }, function(response){
+      if(response.data){
+        var error = selectedMasjid.name + ": ";
+        error += response.data.errors.join(", ");
+        ctrl.errorMsg = error;
+      }
+      else{
+        ctrl.errorMsg = "Couldn't connect to MasjidNow. Please check your internet connection."
+      }
+    }).finally(function(){
+      $scope.$broadcast('scroll.refreshComplete');
+    })
   }
 
   function setMasjidNameStyle(masjid){
