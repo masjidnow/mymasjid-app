@@ -1,5 +1,12 @@
 angular.module('mymasjid.controllers')
-.controller('DailyTimingsCtrl', function($scope, Restangular, SavedMasjid, $timeout, $ionicPlatform) {
+.controller('DailyTimingsCtrl', function(
+  $scope,
+  Restangular,
+  SavedMasjid,
+  $timeout,
+  $ionicPlatform,
+  PrayerTimeParser
+  ) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
@@ -101,7 +108,7 @@ angular.module('mymasjid.controllers')
       var time = timing[salahKey];
       if(!time || time === "")
         continue;
-      var salahDate = parseTime(time, salahKey);
+      var salahDate = PrayerTimeParser.parse(new Date(), time, salahKey);
       if(salahDate.getTime() < now.getTime())
       {
         salah = salahKey;
@@ -118,54 +125,12 @@ angular.module('mymasjid.controllers')
       var time = timing[salahKey];
       if(!time)
         continue;
-      if(isNaN(parseTime(time, salahKey)))
+      if(isNaN(PrayerTimeParser.parse(new Date(), time, salahKey)))
       {
         parseable = false;
       }
     }
     return parseable;
-  };
-
-  var parseTime = function(timeStr, salahKey){
-    var dt = new Date();
-
-    var time = timeStr.match(/(\d+)(?::(\d\d))?\s*(p?)/i);
-    if (!time) {
-        return NaN;
-    }
-    var hours = parseInt(time[1], 10);
-    if (hours == 12 && !time[3]) {
-        hours = 0;
-    }
-    else {
-        hours += (hours < 12 && time[3]) ? 12 : 0;
-    }
-
-    // heuristics for figuring out am/pm on times that don't have it
-    if(timeStr.match(/am|pm/i) == null){
-      if(salahKey == 'dhuhr') {
-        // dhuhr is usually PM, unless it's just before noon
-        if(hours < 7)
-          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
-      } else if(salahKey == 'asr'){
-        // asr is usually PM, unless it's just before noon
-        if(hours < 10)
-          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
-      } else if(salahKey == 'maghrib'){
-        // maghrib is always PM
-        if(hours < 12)
-          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
-      } else if(salahKey == 'isha'){
-        // isha is usually PM, unless it's past midnight
-        if(hours > 4 && hours < 12)
-          hours += 12; // eg. 3:00 becomes 15:00 instead of 3:00am
-      }
-    }
-
-    dt.setHours(hours);
-    dt.setMinutes(parseInt(time[2], 10) || 0);
-    dt.setSeconds(0, 0);
-    return dt;
   };
 
   function updateMonthlyInfoLinks(){
