@@ -3,8 +3,11 @@
     {{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}
   </ion-nav-title>
   <ion-nav-buttons side="secondary">
-    <button class="button" ng-disabled="ctrl.isLoading" ng-click="ctrl.loadTimings(ctrl.masjid)">
+    <button class="button" ng-disabled="ctrl.isLoading" ng-click="ctrl.loadTimings(ctrl.masjid, ctrl.displayedDate)">
       <i class='ion-refresh'></i>
+    </button>
+    <button class="button" ng-disabled="ctrl.isLoading" ng-click="ctrl.showMonthPicker()">
+      <i class='ion-calendar'></i>
     </button>
   </ion-nav-buttons>
   <ion-content class='monthly-timings' scroll="false">
@@ -14,11 +17,20 @@
     <div class='error' ng-if='ctrl.errorMsg'>
       {{ ctrl.errorMsg }}
     </div>
+
+
+    <div class='card' ng-if="ctrl.displayedDate && !ctrl.isThisMonth(ctrl.displayedDate)" ng-click="ctrl.resetDate()">
+      <div class='item item-text-wrap'>
+        <i class='ion-alert-circled'></i> Timings for {{ ctrl.displayedDate | date:'MMMM y' }}.<br/>
+        Tap to show this month's timings.
+      </div>
+    </div>
+
     <div class="item item-divider">
-      {{ ctrl.today | date:'MMMM y' }} Timings
+      {{ ctrl.displayedDate | date:'MMMM y' }} Timings
     </div>
     <div class='item item-text-wrap' ng-if="!ctrl.isLoading && (ctrl.monthTimings == null || ctrl.monthTimings.length == 0)">
-      Couldn't get any timings for {{ ctrl.today | date:'MMMM y' }}.
+      Couldn't get any timings for {{ ctrl.displayedDate | date:'MMMM y' }}.
     </div>
     <div class="item item-text-wrap" ng-if="ctrl.monthTimings">
       <ion-scroll direction="xy" locking="true" class='table-wrapper'>

@@ -5,12 +5,14 @@ angular.module('mymasjid.controllers')
   SavedMasjid,
   $timeout,
   $ionicPlatform,
-  PrayerTimeParser
+  PrayerTimeParser,
+  $ionicModal
   ) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
+    ctrl.displayedDate = new Date();
     SavedMasjid.getMasjids().then(function(storedMasjids){
       return (storedMasjids || [])[0];
     }).then(function(storedMasjid){
@@ -20,19 +22,31 @@ angular.module('mymasjid.controllers')
         ctrl.loadTimings(storedMasjid);
     });
   }
+
+  function leave(){
+    if($scope.datePickerModal !== null) {
+      $scope.datePickerModal.remove();
+      $scope.datePickerModal = null;
+    }
+  }
+
   $ionicPlatform.on('resume', init);
   $scope.$on("$ionicView.enter", init);
+  $scope.$on("$ionicView.leave", leave);
   $scope.$on("mymasjid.selectedMasjidChanged", init);
 
-  ctrl.loadTimings = function(selectedMasjid){
+  ctrl.loadTimings = function(selectedMasjid, date){
     ctrl.errorMsg = null;
     ctrl.isLoading = true;
     ctrl.masjid = selectedMasjid;
-    var today = new Date();
+    if(date == null)
+      date = new Date();
     var params = {
       src: ionic.Platform.platform(),
       masjid_id: selectedMasjid.id,
-      date: today.toDateString() //just to avoid 304 from the server
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear()
     };
     baseSalahTimings.customGET("daily.json", params).then(function(data){
       var masjid = data.masjid;
@@ -58,6 +72,10 @@ angular.module('mymasjid.controllers')
     });
   };
 
+  ctrl.refresh = function(){
+    ctrl.loadTimings(ctrl.masjid, ctrl.displayedDate);
+  }
+
   ctrl.getDate = function(timing){
     return new Date(timing.year, timing.month-1, timing.day);
   }
@@ -66,14 +84,29 @@ angular.module('mymasjid.controllers')
     console.error("FIXME - make text for no masjid selected");
   }
 
-  ctrl.isCurrent = function(timing){
+  ctrl.resetDate = function(){
+    ctrl.displayedDate = new Date();
+    ctrl.refresh();
+  }
+
+  ctrl.isToday = function(date){
     var today = new Date();
-    var day = today.getDate();
-    var month = today.getMonth();
-    var year = today.getFullYear();
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getFullYear();
+    if(today.getDate() == day && today.getMonth() == month && today.getFullYear() == year)
+      return true;
+    return false;
+  }
+
+  ctrl.isTimingForOlderDate = function(timing){
+    var displayedDate = ctrl.displayedDate;
+    var day = displayedDate.getDate();
+    var month = displayedDate.getMonth();
+    var year = displayedDate.getFullYear();
     if(day > timing.day || (month + 1) > timing.month || year > timing.year)
-      return false;
-    return true;
+      return true;
+    return false;
   }
 
   ctrl.nextIqamah = function(timing){
@@ -96,6 +129,24 @@ angular.module('mymasjid.controllers')
       return ctrl.salahKeys[which];
     }
   }
+
+  ctrl.showDatePicker = function(){
+    if($scope.datePickerModal == null) {
+      $ionicModal.fromTemplateUrl('app/daily_timings/date_picker_modal.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.datePickerModal = modal;
+        $scope.datePickerModal.show();
+      });
+    } else {
+      $scope.datePickerModal.show();
+    }
+  }
+
+  $scope.closeDatePicker = function() {
+    $scope.datePickerModal.hide();
+  };
 
   function getCurrentPrayer(timing){
     if(!allParseableIqamahTimes(timing))
@@ -146,6 +197,12 @@ angular.module('mymasjid.controllers')
         window.cordova.InAppBrowser.open(url, "_system");
       }
     }
+  }
+
+  // used by date picker modal
+  $scope.loadTimingsForDate = function(date){
+    ctrl.displayedDate = date;
+    ctrl.loadTimings(ctrl.masjid, date);
   }
 
   // the keys that the template should display

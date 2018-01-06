@@ -1,5 +1,13 @@
 <ion-view>
-  <ion-nav-title>{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}</ion-nav-title>
+  <ion-nav-title>
+    {{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}
+
+  </ion-nav-title>
+  <ion-nav-buttons side="secondary">
+    <button class="button" ng-disabled="ctrl.isLoading" ng-click="ctrl.showDatePicker()">
+      <i class='ion-calendar'></i>
+    </button>
+  </ion-nav-buttons>
   <ion-content class='daily-timings'>
     <div class='loading' ng-if='ctrl.isLoading'>
       Loading... <ion-spinner></ion-spinner>
@@ -10,22 +18,30 @@
     <ion-refresher
       ng-if="ctrl.masjid"
       pulling-text="Pull to refresh..."
-      on-refresh="ctrl.loadTimings(ctrl.masjid)">
+      on-refresh="ctrl.refresh()">
     </ion-refresher>
+
+    <div class='card' ng-if="ctrl.displayedDate && !ctrl.isToday(ctrl.displayedDate)" ng-click="ctrl.resetDate()">
+      <div class='item item-text-wrap'>
+        <i class='ion-alert-circled'></i> Timings for {{ ctrl.displayedDate | date:'EEEE, MMMM dd, y' }}.<br/>
+        Tap to show today's timings.
+      </div>
+    </div>
+
     <div class="card" ng-hide="ctrl.errorMsg">
       <div class="item item-divider">
         Daily Timings
       </div>
       <div class="item item-text-wrap" ng-if="ctrl.dayTimings">
 
-        <div class='timing-date' ng-class="{old: !ctrl.isCurrent(ctrl.dayTimings)}">
+        <div class='timing-date' ng-class="{old: ctrl.isTimingForOlderDate(ctrl.dayTimings)}">
           From {{ ctrl.getDate(ctrl.dayTimings) | date:'EEEE, MMMM dd, y' }}
           <div
             ng-if="ctrl.dayTimings.hijri_date"
             class='hijri-date'>
             {{ ctrl.dayTimings.hijri_date }}
           </div>
-          <span ng-if="!ctrl.isCurrent(ctrl.dayTimings)">
+          <span ng-if="ctrl.isTimingForOlderDate(ctrl.dayTimings)">
             These timings may be out of date.
           </span>
         </div>
