@@ -79,6 +79,16 @@ angular.module('mymasjid')
       }
     }
   })
+  .state('app.setNotifications', {
+    url: '/set-notifications',
+    views: {
+      'menuContent': {
+        templateUrl: 'app/notifications/set-notifications.html',
+        controller: "SetNotificationsCtrl",
+        controllerAs: "ctrl",
+      }
+    }
+  })
   .state('app.search', {
     url: '/search',
     views: {

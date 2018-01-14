@@ -1,0 +1,59 @@
+<ion-view>
+  <ion-nav-title>{{ ctrl.masjid ? "Iqamah Time Notifications" : 'Masjid Not Set' }}</ion-nav-title>
+  <ion-content class='set-notifications'>
+    <div class='loading' ng-if='ctrl.isLoading'>
+      Loading... <ion-spinner></ion-spinner>
+    </div>
+    <div class='error' ng-if='ctrl.timingsErrorMsg' ng-click="ctrl.loadMonthlyTimings(ctrl.masjid)">
+      <p>
+        {{ ctrl.timingsErrorMsg }}
+      </p>
+      <p>
+        Tap to try again.
+      </p>
+    </div>
+    <div>
+
+      <p class='padding'>
+        Set notifications so that you are notified before the congregational prayer begins at {{ ctrl.masjid.name }}.
+      </p>
+
+      <div class="salah-group" ng-repeat="salah in ctrl.salahKeys" ng-show="!ctrl.isLoadingTimings && !ctrl.timingsErrorMsg">
+
+        <label class="item item-input item-select">
+          <div class="input-label">
+            {{ ctrl.salahNames[salah] }} Iqamah
+          </div>
+          <select
+              ng-model="ctrl.notificationPrefs[salah]"
+              ng-options="minuteChoice.value as minuteChoice.description for minuteChoice in ctrl.minuteChoices"
+              ng-change="ctrl.updateNotificationPreference(salah, ctrl.notificationPrefs[salah])">
+          </select>
+        </label>
+
+      </div>
+
+      <div>
+        {{ ctrl.combinedTimings }}
+      </div>
+
+      <div class='scheduling-notice'
+        ng-if="ctrl.isLoadingTimings">
+        Loading the timings for {{ ctrl.masjid.name }}...
+      </div>
+
+      <div class='scheduling-notice'
+        ng-if="ctrl.isScheduling">
+        Setting your notifications...
+      </div>
+
+      <div class='notification-details'>
+        <p ng-show="ctrl.hasNoNotificationsScheduled()"
+          class='padding'>
+          You currently have no upcoming notifications scheduled.
+        </p>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>
