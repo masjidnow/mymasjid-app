@@ -31,6 +31,10 @@
           </select>
         </label>
 
+        <p class='item preview-time' ng-if="ctrl.timings">
+          {{ ctrl.getTodayTiming()[salah] }} today at {{ ctrl.masjid.name }}
+        </p>
+
       </div>
 
       <div>

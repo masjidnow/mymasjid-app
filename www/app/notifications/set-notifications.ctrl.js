@@ -6,6 +6,7 @@ angular.module('mymasjid.controllers')
   PrayerTimeParser,
   $ionicPlatform,
   NotificationPreferences,
+  NotificationScheduler,
   $q
   ) {
   var ctrl = this;
@@ -24,7 +25,9 @@ angular.module('mymasjid.controllers')
       ctrl.iqamahPreferences = NotificationPreferences.getIqamahPreferences();
       return masjid;
     }).then(function(masjid){
-      ctrl.loadMonthlyTimings(masjid);
+      return ctrl.loadMonthlyTimings(masjid);
+    }).then(function(timings){
+      ctrl.timings = timings;
     });
   }
 
@@ -35,6 +38,17 @@ angular.module('mymasjid.controllers')
   $scope.$on("$ionicView.enter", init);
   $scope.$on("$ionicView.leave", leave);
   $scope.$on("mymasjid.selectedMasjidChanged", init);
+
+  ctrl.getTodayTiming = function(){
+    var today = new Date();
+    for (var i = 0; i < ctrl.timings.length; i++) {
+      var timing = ctrl.timings[i];
+      if(isTimingEqualToDate(timing, today)){
+        return timing;
+      }
+    }
+    return null;
+  }
 
   ctrl.updateNotificationPreference = function(salah, minutesChosen){
     console.log("updateNotificationPreference called with ", salah, minutesChosen);
@@ -71,6 +85,7 @@ angular.module('mymasjid.controllers')
         notifications.push(notification);
       }
     });
+    NotificationScheduler.scheduleNotifications(notifications);
   }
 
   ctrl.loadMonthlyTimings = function(masjid){
