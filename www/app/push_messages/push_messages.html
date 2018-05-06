@@ -1,6 +1,6 @@
 <ion-view>
   <ion-nav-title>{{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}</ion-nav-title>
-  <ion-content class='monthly-timings'>
+  <ion-content class='push-messages'>
     <div class='loading' ng-if='ctrl.isLoading'>
       Loading... <ion-spinner></ion-spinner>
     </div>
@@ -19,12 +19,12 @@
       <div class="item item-text-wrap" ng-if="ctrl.messages.length == 0">
         No messages have been received from {{ ctrl.masjid.name }}.
       </div>
-      <div class="card" ng-hide="ctrl.errorMsg" ng-repeat="message in ctrl.messages">
+      <div class="card push-message" ng-hide="ctrl.errorMsg" ng-repeat="message in ctrl.messages">
         <div class="item item-divider">
           {{ message.sent_at * 1000 | date:'EEE MMM dd yyyy @ hh:mm a'}}
         </div>
         <div class="item item-text-wrap">
-          {{ message.content }}
+          <span ng-bind-html="message.content">{{ message.content }}</span>
           <p>
             - {{ ctrl.masjid.name }}
           </p>

@@ -1,5 +1,5 @@
 angular.module('mymasjid.controllers')
-.controller('PushMessagesCtrl', function($scope, Restangular, SavedMasjid, $ionicPlatform) {
+.controller('PushMessagesCtrl', function($scope, Restangular, SavedMasjid, $ionicPlatform, $timeout) {
   var ctrl = this;
 
   function init(){
@@ -29,6 +29,10 @@ angular.module('mymasjid.controllers')
       ctrl.masjid = masjid;
       ctrl.messages = _.map(masjid.push_messages, "push_message");
       ctrl.pushMessagesEnabled = masjid.push_messages_enabled;
+
+      $timeout(function(){
+        updateLinks();
+      }, 500);
     }, function(response){
       ctrl.masjid = masjid;
       if(response.data){
@@ -43,6 +47,22 @@ angular.module('mymasjid.controllers')
       ctrl.isLoading = false;
       $scope.$broadcast('scroll.refreshComplete');
     });
+  }
+
+
+  function updateLinks(){
+    var $links = document.querySelectorAll(".push-messages .push-message a");
+    console.log("Found ", $links.length, "links to fix.");
+    for(var i =0; i < $links.length; i++) {
+      var $link = $links[i];
+      var href = $link.href;
+      console.log("Fixing link to ", href);
+      $link.onclick = function(e){
+        e.preventDefault();
+        var url = e.currentTarget.getAttribute("href");
+        window.cordova.InAppBrowser.open(url, "_system");
+      }
+    }
   }
 
   $ionicPlatform.on('resume', init);
