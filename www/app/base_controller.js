@@ -129,6 +129,7 @@ angular.module('mymasjid.controllers')
       if(masjid == null)
         return;
       PushRegistration.initialize();
+      $cordovaPushV5.onNotification(); // start listening to events
       PushRegistration.register(masjid.id).then(function(response){
         console.log("PushRegistration success response", response);
       }, function(errors) {
