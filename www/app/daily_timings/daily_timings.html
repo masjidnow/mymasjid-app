@@ -60,6 +60,7 @@
             </td>
             <td class='adhan-time'>
               {{ ctrl.dayTimings[salahKey + "_adhan"] || "---" }}
+              <span ng-if="salahKey == 'asr' && ctrl.dayTimings['asr_adhan_extra']"> / <br/>{{ ctrl.dayTimings["asr_adhan_extra"] }}</span>
             </td>
             <td class='iqamah-time'>
               {{ ctrl.dayTimings[salahKey] || "---" }}
