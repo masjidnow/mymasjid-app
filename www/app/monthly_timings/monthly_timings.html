@@ -130,7 +130,7 @@
               {{ timing.dhuhr }}
             </td>
             <td class='time adhan-time'>
-              {{ timing.asr_adhan }}
+              {{ timing.asr_adhan }} <span ng-if="timing.asr_adhan_extra"> / {{ timing.asr_adhan_extra }} </span>
             </td>
             <td class='time iqamah-time'>
               {{ timing.asr }}

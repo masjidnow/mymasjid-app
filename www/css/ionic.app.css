@@ -9886,7 +9886,8 @@ a.button {
   .monthly-timings .iqamah-times-table .timing-row .adhan-time {
     text-align: center;
     font-size: 14px;
-    color: #777; }
+    color: #777;
+    white-space: nowrap; }
 
 .monthly-timings .monthly-info {
   padding: 60px 4px;
