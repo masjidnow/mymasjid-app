@@ -93,6 +93,13 @@
             <i class='ion-plus'></i>
             Add Masjid
           </ion-item>
+          <div class='item-divider'></div>
+          <ion-item
+            ng-click="ctrl.openWebsite('https://www.masjidnow.com/privacy_policy')"
+            menu-close>
+            <i class='ion-information-circled'></i>
+            Privacy Policy
+          </ion-item>
         </div>
         <ion-item ng-if="!ctrl.pushesAreEnabled" class='item-text-wrap push-not-enabled'>
           <p>

@@ -78,6 +78,11 @@ angular.module('mymasjid.controllers')
     return true;
   }
 
+  ctrl.openWebsite = function(url){
+    console.log("opening website");
+    window.cordova.InAppBrowser.open(url, "_system");
+  }
+
   ctrl.setSelectedMasjid = function(masjid){
     return SavedMasjid.setSelected(masjid).then(function(selectedMasjid){
       $scope.global.selectedMasjid = masjid;
