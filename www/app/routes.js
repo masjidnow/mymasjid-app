@@ -88,6 +88,16 @@ angular.module('mymasjid')
         controllerAs: "ctrl",
       }
     }
+  })
+  .state('app.alarm', {
+    url: '/alarm',
+    views: {
+      'menuContent': {
+        templateUrl: 'app/alarm/alarm.html',
+        controller: "AlarmCtrl",
+        controllerAs: "ctrl",
+      }
+    }
   });
 
   // if none of the above states are matched, use this as the fallback

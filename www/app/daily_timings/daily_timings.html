@@ -72,6 +72,14 @@
         class="item monthly-info"
         ng-bind-html="ctrl.monthlyInfo"></div>
     </div>
-
+    <button class="button button-small button-calm" ng-click="ctrl.setAlarm()">
+      set alarm
+    </button>
+    <button class="button button-small button-calm" ng-click="ctrl.cancelAlarm()">
+      cancel alarm
+    </button>
+    <button class="button button-small button-calm" ng-click="ctrl.getAllScheduledAlarm()">
+        get all scheduled alarm
+      </button>
   </ion-content>
 </ion-view>

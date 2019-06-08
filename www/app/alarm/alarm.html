@@ -1,0 +1,65 @@
+<ion-view>
+  <ion-nav-title>
+    Iqamah Time Notifications
+  </ion-nav-title>
+
+  <ion-content class="alarm-page">
+    <div class='loading' ng-if='ctrl.isLoading'>
+      Loading... <ion-spinner></ion-spinner>
+    </div>
+    <div class="padding">
+      Set notifications so that you are notified before the congregational prayer begins at
+        {{ ctrl.masjid ? ctrl.masjid.name : 'Masjid Not Set' }}.
+    </div>
+    <div class="list">
+      <label class="item item-input item-select" ng-repeat="(k, v) in ctrl.iqamah">
+        <div class="input-label">
+          {{k}} Iqamah
+        </div>
+        <select ng-model="ctrl.iqamah[k]" ng-change="ctrl.iqamahChange(ctrl.iqamah)">
+          <option value="0">Not Set</option>
+          <option ng-repeat="option in ctrl.iqamahReminder" value="{{option}}">{{option}} Minutes Before</option>
+        </select>
+      </label>
+      <!-- <label class="item item-input item-select">
+        <div class="input-label">
+          Dhuhr Iqamah
+        </div>
+        <select ng-model="ctrl.iqamah['dhuhr']" ng-change="ctrl.iqamahChange(ctrl.iqamah)">
+          <option>Not Set</option>
+          <option ng-repeat="option in ctrl.iqamahReminder">{{option}} Minutes Before</option>
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Asr Iqamah
+        </div>
+        <select ng-model="ctrl.iqamah['asr']" ng-change="ctrl.iqamahChange(ctrl.iqamah)">
+          <option>Not Set</option>
+          <option ng-repeat="option in ctrl.iqamahReminder">{{option}} Minutes Before</option>
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Maghrib Iqamah
+        </div>
+        <select ng-model="ctrl.iqamah['maghrib']" ng-change="ctrl.iqamahChange(ctrl.iqamah)">
+          <option>Not Set</option>
+          <option ng-repeat="option in ctrl.iqamahReminder">{{option}} Minutes Before</option>
+        </select>
+      </label>
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Isha Iqamah
+        </div>
+        <select ng-model="ctrl.iqamah['isha']" ng-change="ctrl.iqamahChange(ctrl.iqamah)">
+          <option>Not Set</option>
+          <option ng-repeat="option in ctrl.iqamahReminder">{{option}} Minutes Before</option>
+        </select>
+      </label> -->
+    </div>
+    <div class="padding">
+      You currently have no upcoming notifications scheduled.
+    </div>
+  </ion-content>
+</ion-view>
