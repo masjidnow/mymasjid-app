@@ -6,4 +6,5 @@ platforms/
 plugins/
 .DS_Store
 app.env.json
+jsconfig.json
 www/app/appConfig.js

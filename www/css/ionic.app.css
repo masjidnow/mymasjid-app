@@ -9949,6 +9949,12 @@ a.button {
   background: #ffc900;
   color: black; }
 
+.alarm-page .monthly-info {
+  text-align: center;
+  padding: 10px 4px; }
+  .alarm-page .monthly-info p {
+    white-space: normal; }
+
 .error {
   background: #ef473a;
   color: white;
