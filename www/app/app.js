@@ -16,7 +16,7 @@ angular.module('mymasjid',
   ]
 )
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, alarmService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -33,6 +33,12 @@ angular.module('mymasjid',
       StatusBar.overlaysWebView(true);
       StatusBar.styleLightContent();
     }
+    // $rootScope.$on('$cordovaLocalNotification:trigger', function(event, notification, state) {
+    //   console.log(event);
+    //   console.log(notification);
+    //   console.log(state);
+    //   alarmService.setLocalNotification();
+    // });
   });
 })
 .config(function(RestangularProvider){

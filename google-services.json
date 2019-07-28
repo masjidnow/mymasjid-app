@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "427143634948",
+    "firebase_url": "https://mymasjid-f87e5.firebaseio.com",
+    "project_id": "mymasjid-f87e5",
+    "storage_bucket": "mymasjid-f87e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427143634948:android:fdee9b715a2496af",
+        "android_client_info": {
+          "package_name": "com.masjidnow.mymasjid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427143634948-85j1k845rip91ulpdpriiv7meost78lf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpep41pUR_iIwdmlTzlXzz_DnRhWhjZ14"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

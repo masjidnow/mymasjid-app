@@ -81,6 +81,12 @@
             Masjid Info
           </ion-item>
           <ion-item menu-close
+            ui-sref="app.alarm"
+            ng-if="global.selectedMasjid">
+            <i class='ion-ios-bell-outline'></i>
+            Alarms
+          </ion-item>
+          <ion-item menu-close
             ng-if="ctrl.canNavigate()"
             ng-click="ctrl.navigateToMasjid(global.selectedMasjid)">
             <i class='ion-navigate'></i>

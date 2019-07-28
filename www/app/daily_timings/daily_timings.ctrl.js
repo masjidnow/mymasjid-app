@@ -6,7 +6,8 @@ angular.module('mymasjid.controllers')
   $timeout,
   $ionicPlatform,
   PrayerTimeParser,
-  $ionicModal
+  $ionicModal,
+  alarmService
   ) {
   var ctrl = this;
   var baseSalahTimings = Restangular.all('salah_timings');
@@ -22,6 +23,35 @@ angular.module('mymasjid.controllers')
         ctrl.loadTimings(storedMasjid);
     });
   }
+
+  ctrl.setAlarm = function(){
+    var alarmTime = new Date();
+    alarmTime.setSeconds(alarmTime.getSeconds() + 30);
+    var schedule = {
+        id: "12345",
+        title: "Okay",
+        text: "Text for notifcation",
+        trigger: {at: alarmTime}
+      };
+    alarmService.setLocalNotification(schedule);
+
+    // $cordovaLocalNotification.schedule({
+    //   id: "1234",
+    //   title: 'My first notification',
+    //   text: 'Thats pretty easy...',
+    //   trigger: {at: alarmTime}
+    // }).then(function(){
+    //   alert('alarm set');
+    // });
+  };
+
+  ctrl.cancelAlarm = function(){
+    alarmService.cancelAllNotification();
+  };
+
+  ctrl.getAllScheduledAlarm = function(){
+    alarmService.getAllScheduledAlarm();
+  };
 
   function leave(){
     if($scope.datePickerModal !== null) {

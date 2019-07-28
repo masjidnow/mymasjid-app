@@ -8,7 +8,9 @@ angular.module('mymasjid.controllers')
    $ionicPlatform,
    $cordovaPushV5,
    $q,
+   $window,
    appConfig,
+   alarmService,
    Restangular,
    PushRegistration,
    SavedMasjid,
@@ -39,8 +41,8 @@ angular.module('mymasjid.controllers')
       return storedMasjid;
     })
     .then(refreshMasjid)
-    .then(setMenuStyle)
-  };
+    .then(setMenuStyle);
+  }
 
   function refreshMasjid(){
     var masjid = $scope.global.selectedMasjid;
@@ -50,6 +52,49 @@ angular.module('mymasjid.controllers')
     return Restangular.all("masjids").get(masjid.id).then(function(response){
       var masjid = response.masjid;
       console.log("Got refreshed masjid", masjid);
+      alarmService.removeLastMonth();
+
+      (async function(){
+        // if(!await alarmService.isIqamahAvailable()){
+        //   var date = new Date();
+        //   console.log('fetching');
+        //   await alarmService.fetchIqamah(date.getMonth() + 1, date.getFullYear(), masjid.id);
+        //   await alarmService.fetchIqamah(date.getMonth() + 2, date.getFullYear(), masjid.id);
+        // }
+
+
+        try {
+          var notifSetting = await alarmService.getNotificationSettings();
+          var hasSetting = Object.values(notifSetting).filter(function(v){
+            return v > 0;
+          });
+          if($window.cordova){
+              await alarmService.cancelAllNotification();
+          }
+          if(hasSetting.length > 0){
+            var cm, nm;
+            var date = new Date();
+            if(!await alarmService.isIqamahAvailable()){
+              console.log('fetching');
+              cm = await alarmService.fetchIqamah(date.getMonth() + 1, date.getFullYear(), masjid.id);
+              nm = await alarmService.fetchIqamah(date.getMonth() + 2, date.getFullYear(), masjid.id);
+            }else{
+              cm = await alarmService.get((date.getMonth() + 1).toString() + date.getFullYear().toString());
+              nm = await alarmService.get((date.getMonth() + 2).toString() + date.getFullYear().toString());
+            }
+            var cmSchedule = await alarmService.generateNotificationSchedule(cm, true);
+            var nmSchedule = await alarmService.generateNotificationSchedule(nm, false);
+            if(cmSchedule.length > 0){
+              alarmService.setLocalNotification(cmSchedule);
+            }
+            if(nmSchedule.length > 0){
+              alarmService.setLocalNotification(nmSchedule);
+            }
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      })();
       return SavedMasjid.setSelected(masjid);
     });
   }
@@ -69,7 +114,7 @@ angular.module('mymasjid.controllers')
   ctrl.hideSideMenu = function(){
     $ionicSideMenuDelegate.toggleLeft(false);
     return true;
-  }
+  };
 
   ctrl.openChild = function(stateName){
     $state.go(stateName);
@@ -79,7 +124,7 @@ angular.module('mymasjid.controllers')
   ctrl.toggleShowingOtherMasjids = function(){
     ctrl.showingOtherMasjids = !ctrl.showingOtherMasjids;
     return true;
-  }
+  };
 
   ctrl.setSelectedMasjid = function(masjid){
     return SavedMasjid.setSelected(masjid).then(function(selectedMasjid){
@@ -91,7 +136,7 @@ angular.module('mymasjid.controllers')
     .then(getStoredMasjids)
     .then(registerForPush)
     .then(refreshMasjid);
-  }
+  };
 
   ctrl.removeMasjid = function(masjid){
     var confirmPopup = $ionicPopup.confirm({
@@ -106,14 +151,14 @@ angular.module('mymasjid.controllers')
        console.log("Removed masjid", storedMasjid);
      }).then(getStoredMasjids);
     });
-  }
+  };
 
   ctrl.canNavigate = function(){
     if($scope.global.selectedMasjid == null){
       return false;
     }
     return true;
-  }
+  };
 
   ctrl.navigateToMasjid = function(masjid){
     var destination = [masjid.latitude, masjid.longitude];
