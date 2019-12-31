@@ -5,13 +5,9 @@
   </ion-header-bar>
   <ion-content class="padding" ng-controller="DatePickerModalCtrl as ctrl">
     <div class="list">
-      <label class="item item-input">
-        <span class="input-label">Date</span>
-        <input ng-model="ctrl.datePicker.date" type="date">
-      </label>
-      <button class="button button-full button-positive" ng-click="datePickerModal.hide(); loadTimingsForDate(ctrl.datePicker.date)">Show Timings</button>
-      or
-      <button class="button button-full button-default" ng-click="datePickerModal.hide(); loadTimingsForDate(ctrl.tomorrow)">Tomorrow's Timings</button>
-    </div>
+      <button ng-repeat="month in ctrl.allMonths" class="button button-full button-neutral"
+        ng-click="ctrl.monthClicked(month, $index)">
+          {{ month }}
+      </button>
   </ion-content>
 </ion-modal-view>

@@ -4,6 +4,7 @@ angular.module('mymasjid.controllers')
  Restangular,
  $state,
  $ionicHistory,
+ $ionicViewService,
  SavedMasjid
  ) {
   var ctrl = this;
@@ -12,8 +13,11 @@ angular.module('mymasjid.controllers')
 
   }
 
-  ctrl.goBack = function(){
-    $ionicHistory.goBack();
+  ctrl.goToDailyTimings = function(){
+    $ionicViewService.nextViewOptions({
+        disableBack: true
+    });
+    $state.go("app.dailyTimings");
   }
 
   ctrl.submitSearch = function(query){
@@ -41,7 +45,7 @@ angular.module('mymasjid.controllers')
   ctrl.selectMasjid = function(masjid){
     SavedMasjid.setSelected(masjid)
     .then(function(){
-      ctrl.goBack();
+      ctrl.goToDailyTimings();
     });
   }
 

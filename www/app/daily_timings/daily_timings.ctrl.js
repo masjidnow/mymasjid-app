@@ -12,6 +12,7 @@ angular.module('mymasjid.controllers')
   var baseSalahTimings = Restangular.all('salah_timings');
 
   function init(){
+    ctrl.today = new Date();
     ctrl.displayedDate = new Date();
     SavedMasjid.getMasjids().then(function(storedMasjids){
       return (storedMasjids || [])[0];
@@ -44,14 +45,19 @@ angular.module('mymasjid.controllers')
     var params = {
       src: ionic.Platform.platform(),
       masjid_id: selectedMasjid.id,
-      day: date.getDate(),
       month: date.getMonth() + 1,
       year: date.getFullYear()
     };
-    baseSalahTimings.customGET("daily.json", params).then(function(data){
+    baseSalahTimings.customGET("monthly.json", params).then(function(data){
       var masjid = data.masjid;
       ctrl.masjid = masjid;
-      ctrl.dayTimings = masjid.salah_timing;
+      var timings = _.orderBy(masjid.salah_timings, function(timing){ return timing.salah_timing.day });
+      timings = _.map(timings, function(timing){
+        timing.salah_timing.date = parseDate(timing.salah_timing.date);
+        return timing.salah_timing;
+      });
+      timings = _.filter(timings, function(timing){ return timing.day >= date.getDate() });
+      ctrl.timings = timings;
       ctrl.monthlyInfo = masjid.monthly_info;
       $timeout(function(){
         updateMonthlyInfoLinks();
@@ -91,12 +97,20 @@ angular.module('mymasjid.controllers')
 
   ctrl.isToday = function(date){
     var today = new Date();
-    var day = date.getDate();
-    var month = date.getMonth();
-    var year = date.getFullYear();
-    if(today.getDate() == day && today.getMonth() == month && today.getFullYear() == year)
-      return true;
-    return false;
+    return datesAreEqual(date, today);
+  }
+
+  ctrl.isTomorrow = function(date){
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return datesAreEqual(tomorrow, date);
+  }
+
+  function datesAreEqual(dateA, dateB){
+    var day = dateA.getDate();
+    var month = dateA.getMonth();
+    var year = dateA.getFullYear();
+    return dateB.getDate() == day && dateB.getMonth() == month && dateB.getFullYear() == year;
   }
 
   ctrl.isTimingForOlderDate = function(timing){
@@ -130,6 +144,16 @@ angular.module('mymasjid.controllers')
     }
   }
 
+  ctrl.isIqamahPast = function(timing, salahKey){
+    var salahDate = PrayerTimeParser.parse(timing.date, timing[salahKey], salahKey);
+    return salahDate.getTime() < (new Date()).getTime();
+  }
+
+  ctrl.isAdhanPast = function(timing, salahKey){
+    var salahDate = PrayerTimeParser.parse(timing.date, timing[salahKey + "_adhan"], salahKey);
+    return salahDate.getTime() < (new Date()).getTime();
+  }
+
   ctrl.showDatePicker = function(){
     if($scope.datePickerModal == null) {
       $ionicModal.fromTemplateUrl('app/daily_timings/date_picker_modal.html', {
@@ -148,6 +172,22 @@ angular.module('mymasjid.controllers')
     $scope.datePickerModal.hide();
   };
 
+  function getTodaysTiming(timings){
+    return _.find(timings, function(timing){ return timing.salah_timing.day == (new Date()).getDate()});
+  }
+
+  function parseDate(dateStr){
+    var arr = dateStr.split("-");
+    var year = arr[0];
+    var month = arr[1];
+    var day = arr[2];
+    var date = new Date();
+    date.setFullYear(year);
+    date.setMonth(month-1);
+    date.setDate(day);
+    return date;
+  }
+
   function getCurrentPrayer(timing){
     if(!allParseableIqamahTimes(timing))
       return null;
@@ -159,7 +199,7 @@ angular.module('mymasjid.controllers')
       var time = timing[salahKey];
       if(!time || time === "")
         continue;
-      var salahDate = PrayerTimeParser.parse(new Date(), time, salahKey);
+      var salahDate = PrayerTimeParser.parse(timing.date, time, salahKey);
       if(salahDate.getTime() < now.getTime())
       {
         salah = salahKey;
@@ -200,7 +240,11 @@ angular.module('mymasjid.controllers')
   }
 
   // used by date picker modal
-  $scope.loadTimingsForDate = function(date){
+  $scope.loadTimingsForMonth = function(month, year){
+    var date = new Date();
+    date.setDate(1);
+    date.setMonth(month);
+    date.setFullYear(year);
     ctrl.displayedDate = date;
     ctrl.loadTimings(ctrl.masjid, date);
   }

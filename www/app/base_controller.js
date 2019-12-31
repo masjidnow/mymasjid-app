@@ -44,6 +44,9 @@ angular.module('mymasjid.controllers')
 
   function refreshMasjid(){
     var masjid = $scope.global.selectedMasjid;
+    if(masjid === null){
+      return;
+    }
     return Restangular.all("masjids").get(masjid.id).then(function(response){
       var masjid = response.masjid;
       console.log("Got refreshed masjid", masjid);
