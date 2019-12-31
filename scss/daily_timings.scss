@@ -1,8 +1,14 @@
 .daily-timings{
-  .timing-date{
-    font-size: 12px;
-    padding: 5px;
+  .gregorian-date{
     text-align: center;
+    &.old{
+      color: $energized;
+    }
+  }
+  .hijri-date{
+    font-size: 14px;
+    display: block;
+    color: #666;
     &.old{
       color: $energized;
     }
@@ -15,25 +21,50 @@
       font-size: 14px;
     }
 
+    .next-salah-row{
+      text-align: center;
+      td {
+        padding: 20px 0px;
+        p{
+          &:before, &:after{
+            display: inline-block;
+            height: 4px;
+            width: 50px;
+            content: "";
+            margin: 0px 15px;
+            background: $energized;
+          }
+        }
+      }
+    }
+
     .next-iqamah-indicator{
       color: $accent-color;
     }
 
     tr.iqamah-row td{
       padding: 10px 10px;
+      font-size: 18px;
+
 
       &.salah-name{
         padding-right: 20px;
       }
     }
 
+    tr.current{
+      font-weight: bold;
+    }
+
+    tr.past{
+      color: #999;
+    }
+
     .iqamah-time{
       text-align: right;
-      font-size: 18px;
     }
     .adhan-time{
       text-align: right;
-      font-size: 18px;
       color: #777;
     }
   }
