@@ -9,10 +9,43 @@ angular.module('mymasjid.controllers')
     console.log("Modal shown event", e, modal);
     ctrl.today = new Date();
     ctrl.datePicker.date = ctrl.today;
-
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    ctrl.tomorrow = tomorrow;
   });
+
+  ctrl.monthClicked = function(monthStr, index){
+    $scope.datePickerModal.hide();
+    var month = index % 12;
+    var year = monthStr.match(/\w+\s(\d+)/)[1];
+    $scope.loadTimingsForMonth(month, year);
+  }
+
+  var thisYear = (new Date()).getFullYear();
+  var nextYear = thisYear + 1;
+
+  ctrl.allMonths = [
+    "January " + thisYear,
+    "February " + thisYear,
+    "March " + thisYear,
+    "April " + thisYear,
+    "May " + thisYear,
+    "June " + thisYear,
+    "July " + thisYear,
+    "August " + thisYear,
+    "September " + thisYear,
+    "October " + thisYear,
+    "November " + thisYear,
+    "December " + thisYear,
+    "January " + nextYear,
+    "February " + nextYear,
+    "March " + nextYear,
+    "April " + nextYear,
+    "May " + nextYear,
+    "June " + nextYear,
+    "July " + nextYear,
+    "August " + nextYear,
+    "September " + nextYear,
+    "October " + nextYear,
+    "November " + nextYear,
+    "December " + nextYear,
+  ];
 
 });

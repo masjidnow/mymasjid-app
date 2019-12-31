@@ -21,49 +21,59 @@
       on-refresh="ctrl.refresh()">
     </ion-refresher>
 
-    <div class='card' ng-if="ctrl.displayedDate && !ctrl.isToday(ctrl.displayedDate)" ng-click="ctrl.resetDate()">
-      <div class='item item-text-wrap'>
-        <i class='ion-alert-circled'></i> Timings for {{ ctrl.displayedDate | date:'EEEE, MMMM dd, y' }}.<br/>
-        Tap to show today's timings.
-      </div>
+    <div class='card' ng-if="ctrl.timings.length == 0">
+      <p class="item item-text-wrap">
+        No timings were found for the rest of this month.
+      </p>
     </div>
 
-    <div class="card" ng-hide="ctrl.errorMsg">
-      <div class="item item-divider">
-        Daily Timings
+    <div class='card' ng-if="ctrl.displayedDate && ctrl.displayedDate.getMonth() != ctrl.today.getMonth()" ng-click="ctrl.resetDate()">
+      <div class='item item-text-wrap'>
+        <i class='ion-alert-circled'></i> Timings for {{ ctrl.displayedDate | date:'MMMM y' }}.<br/>
+        Tap to show this month's timings.
       </div>
-      <div class="item item-text-wrap" ng-if="ctrl.dayTimings">
-
-        <div class='timing-date' ng-class="{old: ctrl.isTimingForOlderDate(ctrl.dayTimings)}">
-          From {{ ctrl.getDate(ctrl.dayTimings) | date:'EEEE, MMMM dd, y' }}
-          <div
-            ng-if="ctrl.dayTimings.hijri_date"
-            class='hijri-date'>
-            {{ ctrl.dayTimings.hijri_date }}
-          </div>
-          <span ng-if="ctrl.isTimingForOlderDate(ctrl.dayTimings)">
-            These timings may be out of date.
+    </div>
+    <div class="card" ng-hide="ctrl.errorMsg" ng-repeat="timing in ctrl.timings">
+      <div class="item item-divider">
+        <span
+          class="gregorian-date">
+          <span ng-if="ctrl.isToday(timing.date)">
+            Today,
           </span>
-        </div>
+          <span ng-if="ctrl.isTomorrow(timing.date)">
+            Tomorrow,
+          </span>
+          {{ ctrl.getDate(timing) | date:'EEEE, MMM dd, y' }}
+        </span>
+        <span
+          ng-if="timing.hijri_date"
+          class='hijri-date'>
+          {{ timing.hijri_date }}
+        </span>
+      </div>
+      <div class="item item-text-wrap" ng-if="timing">
         <table class='iqamah-times-table'>
           <tr>
             <th></th>
             <th>Adhan</th>
             <th>Iqamah</th>
           </tr>
-          <tr class='iqamah-row {{salahKey}}' ng-repeat="salahKey in ctrl.salahKeys">
+
+          <tr class='next-salah-row' ng-repeat-start="salahKey in ctrl.salahKeys">
+            <td colspan="99" ng-if="ctrl.isToday(timing.date) && ctrl.nextIqamah(timing) == salahKey">
+              <p>Coming up</p>
+            </td>
+          </tr>
+          <tr class='iqamah-row {{salahKey}}' ng-class="{'current': ctrl.nextIqamah(timing) == salahKey, 'past': salahKey == 'sunrise' || ctrl.isIqamahPast(timing, salahKey)}" ng-repeat-end>
             <td class='salah-name'>
-              <span class="next-iqamah-indicator" ng-if="ctrl.nextIqamah(ctrl.dayTimings) == salahKey">
-                <i class="ion-ionic"></i>
-              </span>
               {{ ctrl.salahNames[salahKey] }}
             </td>
             <td class='adhan-time'>
-              {{ ctrl.dayTimings[salahKey + "_adhan"] || "---" }}
-              <span ng-if="salahKey == 'asr' && ctrl.dayTimings['asr_adhan_extra']"> / <br/>{{ ctrl.dayTimings["asr_adhan_extra"] }}</span>
+              {{ timing[salahKey + "_adhan"] || "---" }}
+              <span ng-if="salahKey == 'asr' && timing['asr_adhan_extra']"> / <br/>{{ timing["asr_adhan_extra"] }}</span>
             </td>
             <td class='iqamah-time'>
-              {{ ctrl.dayTimings[salahKey] || "---" }}
+              {{ timing[salahKey] || "---" }}
             </td>
           </tr>
         </table>
