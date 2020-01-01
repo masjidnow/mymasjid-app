@@ -64,7 +64,7 @@
               <p>Coming up</p>
             </td>
           </tr>
-          <tr class='iqamah-row {{salahKey}}' ng-class="{'current': ctrl.nextIqamah(timing) == salahKey, 'past': salahKey == 'sunrise' || ctrl.isIqamahPast(timing, salahKey)}" ng-repeat-end>
+          <tr class='iqamah-row {{salahKey}}' ng-class="{'current': ctrl.isToday(timing.date) && ctrl.nextIqamah(timing) == salahKey, 'past': ctrl.isToday(timing.date) && (salahKey == 'sunrise' || ctrl.isIqamahPast(timing, salahKey)) }" ng-repeat-end>
             <td class='salah-name'>
               {{ ctrl.salahNames[salahKey] }}
             </td>
