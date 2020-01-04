@@ -83,5 +83,10 @@
         ng-bind-html="ctrl.monthlyInfo"></div>
     </div>
 
+
+    <button class="button button-full" ng-disabled="ctrl.isLoading" ng-click="ctrl.showDatePicker()">
+      <i class='ion-calendar'></i> View Other Months
+    </button>
+
   </ion-content>
 </ion-view>
