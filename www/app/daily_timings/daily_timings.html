@@ -64,7 +64,7 @@
               <p>Coming up</p>
             </td>
           </tr>
-          <tr class='iqamah-row {{salahKey}}' ng-class="{'current': ctrl.nextIqamah(timing) == salahKey, 'past': salahKey == 'sunrise' || ctrl.isIqamahPast(timing, salahKey)}" ng-repeat-end>
+          <tr class='iqamah-row {{salahKey}}' ng-class="{'current': ctrl.isToday(timing.date) && ctrl.nextIqamah(timing) == salahKey, 'past': ctrl.isToday(timing.date) && (salahKey == 'sunrise' || ctrl.isIqamahPast(timing, salahKey)) }" ng-repeat-end>
             <td class='salah-name'>
               {{ ctrl.salahNames[salahKey] }}
             </td>
@@ -82,6 +82,11 @@
         class="item monthly-info"
         ng-bind-html="ctrl.monthlyInfo"></div>
     </div>
+
+
+    <button class="button button-full" ng-disabled="ctrl.isLoading" ng-click="ctrl.showDatePicker()">
+      <i class='ion-calendar'></i> View Other Months
+    </button>
 
   </ion-content>
 </ion-view>
