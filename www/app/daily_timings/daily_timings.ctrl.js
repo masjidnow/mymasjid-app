@@ -135,7 +135,7 @@ angular.module('mymasjid.controllers')
       return null;
     }
     if(current == "isha")
-      return "fajr";
+      return null;
     else
     {
       var which = ctrl.salahKeys.indexOf(current);
@@ -192,8 +192,8 @@ angular.module('mymasjid.controllers')
     if(!allParseableIqamahTimes(timing))
       return null;
     var now = new Date();
-    var salah = "isha";
-    for(var i = 0; i < ctrl.salahKeys.length-1; i++)
+    var salah = null;
+    for(var i = ctrl.salahKeys.length-1; i >= 0; i--)
     {
       var salahKey = ctrl.salahKeys[i];
       var time = timing[salahKey];
@@ -203,6 +203,7 @@ angular.module('mymasjid.controllers')
       if(salahDate.getTime() < now.getTime())
       {
         salah = salahKey;
+        break;
       }
     }
     return salah;
