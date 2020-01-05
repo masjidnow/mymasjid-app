@@ -9842,11 +9842,11 @@ a.button {
     color: #666;
     text-align: right;
     padding-right: 10px; }
-  .daily-timings .iqamah-times-table .next-salah-row {
+  .daily-timings .iqamah-times-table .end-day-row, .daily-timings .iqamah-times-table .next-salah-row {
     text-align: center; }
-    .daily-timings .iqamah-times-table .next-salah-row td {
+    .daily-timings .iqamah-times-table .end-day-row td, .daily-timings .iqamah-times-table .next-salah-row td {
       padding: 20px 0px; }
-      .daily-timings .iqamah-times-table .next-salah-row td p:before, .daily-timings .iqamah-times-table .next-salah-row td p:after {
+      .daily-timings .iqamah-times-table .end-day-row td p:before, .daily-timings .iqamah-times-table .end-day-row td p:after, .daily-timings .iqamah-times-table .next-salah-row td p:before, .daily-timings .iqamah-times-table .next-salah-row td p:after {
         display: inline-block;
         height: 4px;
         width: 50px;
